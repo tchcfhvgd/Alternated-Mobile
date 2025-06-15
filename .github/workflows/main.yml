@@ -59,6 +59,7 @@ jobs:
           haxelib install hxvlc 2.0.1
           haxelib install hscript-iris
           haxelib install flixel-tools 1.5.1
+          haxelib install tjson 1.4.0
           haxelib git linc_luajit https://github.com/th2l-devs/linc_luajit
           haxelib git flxanimate https://github.com/th2l-devs/flxanimate
           haxelib git funkin.vis https://github.com/FunkinCrew/funkVis

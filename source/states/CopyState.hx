@@ -153,7 +153,7 @@ class CopyState extends MusicBeatState
 					{
 						var path:String = '';
 						#if android
-						if (file.startsWith('mods/'))
+						if (file.startsWith('res/'))
 							path = StorageUtil.getExternalStorageDirectory() + file;
 						else
 						#end
@@ -180,7 +180,7 @@ class CopyState extends MusicBeatState
 		var fileName = Path.withoutDirectory(file);
 		var directory = Path.directory(file);
 		#if android
-		if (fileName.startsWith('mods/'))
+		if (fileName.startsWith('res/'))
 			directory = StorageUtil.getExternalStorageDirectory() + directory;
 		#end
 		try
@@ -231,12 +231,12 @@ class CopyState extends MusicBeatState
 
 		// removes unwanted assets
 		var assets = locatedFiles.filter(folder -> folder.startsWith('assets/'));
-		var mods = locatedFiles.filter(folder -> folder.startsWith('mods/'));
+		var mods = locatedFiles.filter(folder -> folder.startsWith('res/'));
 		locatedFiles = assets.concat(mods);
 		locatedFiles = locatedFiles.filter(file -> !FileSystem.exists(file));
 		#if android
 		for (file in locatedFiles)
-			if (file.startsWith('mods/'))
+			if (file.startsWith('res/'))
 				locatedFiles = locatedFiles.filter(file -> !FileSystem.exists(StorageUtil.getExternalStorageDirectory() + file));
 		#end
 

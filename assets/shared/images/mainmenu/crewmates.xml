@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="forUI.png">
+	<!-- Created with Adobe Animate version 23.0.1.70 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="0" x="0" y="0" width="195" height="190"/>
+	<SubTexture name="1" x="197" y="0" width="365" height="281"/>
+	<SubTexture name="2" x="564" y="0" width="292" height="304"/>
+	<SubTexture name="3" x="858" y="0" width="213" height="197"/>
+	<SubTexture name="4" x="1073" y="0" width="147" height="209"/>
+	<SubTexture name="5" x="1222" y="0" width="65" height="62"/>
+	<SubTexture name="6" x="0" y="335" width="179" height="165"/>
+	<SubTexture name="7" x="181" y="335" width="292" height="292"/>
+	<SubTexture name="8" x="475" y="335" width="235" height="191"/>
+	<SubTexture name="9" x="712" y="335" width="183" height="156"/>
+	<SubTexture name="10" x="897" y="335" width="254" height="240"/>
+	<SubTexture name="11" x="1153" y="335" width="69" height="57"/>
+	<SubTexture name="12" x="1224" y="335" width="131" height="185"/>
+	<SubTexture name="-1" x="1289" y="0" width="164" height="128"/>
+	<SubTexture name="-2" x="1765" y="0" width="152" height="219"/>
+	<SubTexture name="-3" x="1455" y="0" width="308" height="333"/>
+</TextureAtlas>

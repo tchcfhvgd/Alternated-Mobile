@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="buttons.png">
+	<!-- Created using the Spritesheet and XML generator -->
+	<!-- https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web -->
+	<SubTexture name="credits0000" x="0" y="820" width="364" height="74" frameX="2" frameY="2" frameWidth="360" frameHeight="70"/>
+	<SubTexture name="discord0000" x="725" y="512" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="freeplay0000" x="0" y="0" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+	<SubTexture name="news0000" x="725" y="308" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="options0000" x="725" y="410" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="sel_credits0000" x="725" y="718" width="364" height="74" frameX="2" frameY="2" frameWidth="360" frameHeight="70"/>
+	<SubTexture name="sel_discord0000" x="0" y="718" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="sel_freeplay0000" x="0" y="462" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+	<SubTexture name="sel_news0000" x="0" y="616" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="sel_options0000" x="725" y="616" width="725" height="102" frameX="2" frameY="2" frameWidth="721" frameHeight="98"/>
+	<SubTexture name="sel_shop0000" x="0" y="308" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+	<SubTexture name="sel_storymode0000" x="725" y="0" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+	<SubTexture name="shop0000" x="725" y="154" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+	<SubTexture name="storymode0000" x="0" y="154" width="725" height="154" frameX="2" frameY="2" frameWidth="721" frameHeight="150"/>
+</TextureAtlas>

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<TextureAtlas imagePath="freeplaymicky.png">
+<SubTexture name="idle0000" x="468" y="0" width="468" height="356" frameX="-19" frameY="-101" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0001" x="936" y="355" width="468" height="354" frameX="-19" frameY="-103" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0002" x="0" y="711" width="482" height="348" frameX="-15" frameY="-109" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0003" x="0" y="356" width="472" height="355" frameX="-18" frameY="-102" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0004" x="936" y="0" width="468" height="355" frameX="-19" frameY="-102" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0005" x="0" y="0" width="468" height="356" frameX="-19" frameY="-101" frameWidth="512" frameHeight="512" />
+<SubTexture name="idle0006" x="468" y="0" width="468" height="356" frameX="-19" frameY="-101" frameWidth="512" frameHeight="512" />
+</TextureAtlas>

@@ -103,7 +103,7 @@ class CrashHandler
 	#if sys
 	private static function saveErrorMessage(message:String):Void
 	{
-		final folder:String = #if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'logs/';
+		final folder:String = #if ios StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'logs/';
 
 		try
 		{

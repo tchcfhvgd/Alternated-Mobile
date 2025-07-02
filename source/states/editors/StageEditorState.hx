@@ -1751,7 +1751,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		{
 			fullPath = fullPath.replace('\\', '/');
 			var exePath = Sys.getCwd().replace('\\', '/');
-			#if android
+			#if ios
 			var externalPath = StorageUtil.getExternalStorageDirectory();
 			#end
 			if(fullPath.startsWith(exePath))
@@ -1764,7 +1764,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 					return;
 				}
 			}
-			#if android
+			#if ios
 			else if(fullPath.startsWith(externalPath))
 			{
 				fullPath = fullPath.substr(externalPath.length);

@@ -461,7 +461,7 @@ class Paths
 
 	#if MODS_ALLOWED
 	inline static public function mods(key:String = '')
-		return #if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'res/' + key;
+		return #if ios StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'res/' + key;
 
 	inline static public function modsJson(key:String)
 		return modFolders('songs/' + key + '.json');
@@ -515,7 +515,7 @@ class Paths
 			}
 			#end
 		}
-		return (#if android StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'res/' + key);
+		return (#if ios StorageUtil.getExternalStorageDirectory() + #else Sys.getCwd() + #end 'res/' + key);
 	}
 
 	#if linux

@@ -95,7 +95,7 @@
 	<define name="CHECK_FOR_UPDATES" if="officialBuild"/>
 
 	<section if="MODS_ALLOWED">
-		<assets path='example_mods' rename='mods' embed='false' />
+		<assets path='example_mods' rename='res' embed='false' />
 		<assets path='list.txt' rename='modsList.txt' />
 	</section>
 	

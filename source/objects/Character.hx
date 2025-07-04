@@ -80,6 +80,36 @@ class Character extends FlxSprite
 	public var noAntialiasing:Bool = false;
 	public var originalFlipX:Bool = false;
 	public var editorIsPlayer:Null<Bool> = null;
+	
+	/**
+	 * how much the ghost anims move when played
+	 */
+	public var ghostDisplacement:Float = 40;
+	
+	/**
+	 *	if enabled, ghosts will show on double notes for the character
+	 */
+	public var ghostsEnabled:Bool = true;
+	
+	/**
+	 * Array of all ghosts
+	 */
+	public var doubleGhosts:Array<FlxSprite> = [];
+	
+	/**
+	 * Array of all ghosts tweens
+	 */
+	public var ghostTweenGrp:Array<FlxTween> = [];
+	
+	/**
+	 * Alpha that the ghosts doubles appear at
+	 */
+	public var ghostAlpha:Float = 0.6;
+	
+	/**
+	 * Last hit row index
+	 */
+	public var mostRecentRow:Int = 0; // for ghost anims n shit
 
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
 	{
@@ -89,6 +119,9 @@ class Character extends FlxSprite
 
 		animOffsets = new Map<String, Array<Dynamic>>();
 		this.isPlayer = isPlayer;
+		
+		createNow();
+		
 		changeCharacter(character);
 		
 		switch(curCharacter)
@@ -102,6 +135,24 @@ class Character extends FlxSprite
 		}
 	}
 
+	/ USED FOR THE EDITOR... DW ABOUT IT!
+	public function createNow()
+	{
+		buildGhosts();
+	}
+	
+	function buildGhosts()
+	{
+		for (i in 0...4)
+		{
+			var ghost = new FlxSprite();
+			ghost.visible = false;
+			ghost.antialiasing = true;
+			ghost.alpha = ghostAlpha;
+			doubleGhosts.push(ghost);
+		}
+	}
+	
 	public function changeCharacter(character:String)
 	{
 		animationsArray = [];
@@ -191,6 +242,7 @@ class Character extends FlxSprite
 		singDuration = json.sing_duration;
 		flipX = (json.flip_x != isPlayer);
 		healthColorArray = (json.healthbar_colors != null && json.healthbar_colors.length > 2) ? json.healthbar_colors : [161, 161, 161];
+		healthColour = FlxColor.fromRGB(json.healthbar_colors[0], json.healthbar_colors[1], json.healthbar_colors[2]);
 		vocalsFile = json.vocals_file != null ? json.vocals_file : '';
 		originalFlipX = (json.flip_x == true);
 		editorIsPlayer = json._editor_isPlayer;
@@ -300,9 +352,27 @@ class Character extends FlxSprite
 		if(isAnimationFinished() && hasAnimation('$name-loop'))
 			playAnim('$name-loop');
 
+		if (ghostsEnabled)
+		{
+			for (ghost in doubleGhosts)
+				ghost.update(elapsed);
+		}
+		
 		super.update(elapsed);
 	}
 
+	override function draw()
+	{
+		if (ghostsEnabled)
+		{
+			for (ghost in doubleGhosts)
+			{
+				if (ghost.visible) ghost.draw();
+			}
+		}
+		super.draw();
+	}
+	
 	inline public function isAnimationNull():Bool
 	{
 		return !isAnimateAtlas ? (animation.curAnim == null) : (atlas.anim.curInstance == null || atlas.anim.curSymbol == null);
@@ -530,10 +600,77 @@ class Character extends FlxSprite
 		}
 	}
 
+	public function playGhostAnim(ghostID = 0, animName:String, force:Bool = false, reversed:Bool = false, frame:Int = 0)
+	{
+		var ghost:FlxSprite = doubleGhosts[ghostID];
+		ghost.scale.copyFrom(scale);
+		ghost.frames = frames;
+		ghost.animation.copyFrom(animation);
+		ghost.antialiasing = antialiasing;
+		ghost.x = x;
+		ghost.y = y;
+		ghost.flipX = flipX;
+		ghost.flipY = flipY;
+		ghost.alpha = alpha * ghostAlpha;
+		ghost.visible = true;
+		ghost.color = healthColour;
+		ghost.animation.play(animName, force, reversed, frame);
+		
+		ghostTweenGrp[ghostID]?.cancel();
+		
+		final direction:String = animName.substring(4).split('-')[0];
+		
+		inline function resolveDir(xDir:Bool = false):Float
+		{
+			var output:Float = 0;
+			switch (direction)
+			{
+				case 'UP':
+					if (!xDir) output = -ghostDisplacement;
+				case 'DOWN':
+					if (!xDir) output = ghostDisplacement;
+				case 'RIGHT':
+					if (xDir) output = ghostDisplacement;
+				case 'LEFT':
+					if (xDir) output = -ghostDisplacement;
+			}
+			
+			return output;
+		}
+		
+		final moveX = x + resolveDir(true);
+		final moveY = y + resolveDir(false);
+		
+		ghostTweenGrp[ghostID] = FlxTween.tween(ghost, {alpha: 0, x: moveX, y: moveY}, 0.75,
+			{
+				onComplete: (twn) -> {
+					ghost.visible = false;
+					ghostTweenGrp[ghostID] = null;
+				}
+			});
+			
+		if (animOffsets.exists(animName))
+		{
+			final daOffset = animOffsets.get(animName);
+			ghost.offset.set(daOffset[0], daOffset[1]);
+		}
+	}
+	
 	public override function destroy()
 	{
 		atlas = FlxDestroyUtil.destroy(atlas);
-		super.destroy();
+		
+		for (i in ghostTweenGrp)
+		{
+			i?.cancel();
+			i = null;
+		}
+		
+		ghostTweenGrp = FlxDestroyUtil.destroyArray(ghostTweenGrp);
+		
+		doubleGhosts = FlxDestroyUtil.destroyArray(doubleGhosts);
+	    
+	    super.destroy();
 	}
 	#end
 }

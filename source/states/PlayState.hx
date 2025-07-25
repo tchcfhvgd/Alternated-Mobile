@@ -3366,7 +3366,7 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
 
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % 2 == camBopInterval)
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curDecBeat % camBopInterval == 0)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;

@@ -2159,6 +2159,18 @@ class PlayState extends MusicBeatState
 					camZoomingMult = flValue1;
 				    camBopInterval = flValue2;
 				}
+				
+			case 'Tween Cam Zoom':
+					var stageData:StageFile = StageData.getStageFile(curStage);
+				    if(flValue1 == null)
+				    flValue1 = stageData.defaultZoom;
+				    if(flValue2 == null)
+				    flValue2 = 1;
+				    if(flValue1 == 'stage')
+				    flValue1 = stageData.defaultZoom;
+				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
+							}, ease: FlxEase.quadInOut
+					     });
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
@@ -3325,6 +3337,7 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 		
        camBopInterval = Math.floor(camBopInterval);
+       camZoomingMult = Math.floor(camZoomingMult);
 		
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % camBopInterval == 0)
 			{

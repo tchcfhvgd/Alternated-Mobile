@@ -3305,10 +3305,11 @@ class PlayState extends MusicBeatState
 	}
 
 	var lastBeatHit:Int = -1;
+	var lastDecBeatHit:Float = -1.0;
 
 	override function beatHit()
 	{
-		if(lastBeatHit >= curBeat) {
+		if(lastBeatHit >= curBeat || lastDecBeatHit >= curDecBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
@@ -3325,7 +3326,7 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 		
 
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % 4 == 2)
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curDecBeat % camBopInterval == 0)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
@@ -3336,6 +3337,7 @@ class PlayState extends MusicBeatState
 
 		super.beatHit();
 		lastBeatHit = curBeat;
+		lastDecBeatHit = curDecBeat;
 
 		setOnScripts('curBeat', curBeat);
 		callOnScripts('onBeatHit');

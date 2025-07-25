@@ -2374,6 +2374,8 @@ class PlayState extends MusicBeatState
 		camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
 		camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
 		tweenCamIn();
+		//qqqeb
+		if(gf.healthColorArray != null && scoreTxt != null)
 		scoreTxt.color = FlxColor.fromRGB(gf.healthColorArray[0], gf.healthColorArray[1], gf.healthColorArray[2]);
 	}
 
@@ -2387,6 +2389,8 @@ class PlayState extends MusicBeatState
 			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
 			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
 			tweenCamIn();
+			//qqqeb
+			if(dad.healthColorArray != null && scoreTxt != null)
 			scoreTxt.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 		}
 		else
@@ -2395,6 +2399,8 @@ class PlayState extends MusicBeatState
 			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+			//qqqeb
+			if(boyfriend.healthColorArray != null && scoreTxt != null)
 			scoreTxt.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
 
 			if (songName == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)

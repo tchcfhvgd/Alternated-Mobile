@@ -2161,7 +2161,7 @@ class PlayState extends MusicBeatState
 				
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 1;
+					if(flValue1 == null) flValue1 = 0;
 					if(flValue2 == null) flValue2 = 1;
 
 					camBopInterval = flValue1;
@@ -3333,6 +3333,12 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 		}
 
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
+			{
+				FlxG.camera.zoom += 0.015 * camBopInterval;
+				camHUD.zoom += 0.03 * camZoomingMult;
+			}
+		
 		characterBopper(curBeat);
 
 		super.beatHit();
@@ -3366,7 +3372,7 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
 
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curDecBeat % camBopInterval == 0)
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;

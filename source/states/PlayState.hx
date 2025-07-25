@@ -3333,7 +3333,7 @@ class PlayState extends MusicBeatState
 		iconP2.updateHitbox();
 		}
 
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % 4 == 2)
 			{
 				FlxG.camera.zoom += 0.015 * camBopInterval;
 				camHUD.zoom += 0.03 * camZoomingMult;

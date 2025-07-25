@@ -3066,32 +3066,6 @@ class PlayState extends MusicBeatState
 
 			if(char != null)
 			{
-				// TODO: maybe move this all away into a seperate function
-				if (char.ghostsEnabled
-					&& !note.isSustainNote
-					&& noteRows[note.mustPress ? 0 : 1][note.row] != null
-					&& noteRows[note.mustPress ? 0 : 1][note.row].length > 1
-					&& note.noteType != "Ghost Note")
-				{
-					// potentially have jump anims?
-					var chord = noteRows[note.mustPress ? 0 : 1][note.row];
-					var animNote = chord[0];
-					
-					if (note.nextNote != null && note.prevNote != null)
-					{
-						if (note != animNote
-							&& !note.nextNote.isSustainNote /* && !note.prevNote.isSustainNote */)
-						{
-							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
-						}
-						else if (note.nextNote.isSustainNote)
-						{
-							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
-						}
-					}
-					char.mostRecentRow = note.row;
-				}
-				
 				var canPlay:Bool = true;
 				if(note.isSustainNote)
 				{
@@ -3348,7 +3322,7 @@ class PlayState extends MusicBeatState
 	public function playerDance():Void
 	{
 		var anim:String = boyfriend.getAnimationName();
-		if(boyfriend.holdTimer > Conductor.stepCrochet * (0.0011 #if FLX_PITCH / FlxG.sound.music.pitch #end) * 4 && anim.startsWith('sing') && !anim.endsWith('miss'))
+		if(boyfriend.holdTimer > Conductor.stepCrochet * (0.0011 #if FLX_PITCH / FlxG.sound.music.pitch #end) * 5 && anim.startsWith('sing') && !anim.endsWith('miss'))
 			boyfriend.dance();
 	}
 

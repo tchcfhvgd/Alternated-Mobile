@@ -57,7 +57,7 @@ class Character extends FlxSprite
 	public var specialAnim:Bool = false;
 	public var animationNotes:Array<Dynamic> = [];
 	public var stunned:Bool = false;
-	public var singDuration:Float = 4; //Multiplier of how long a character holds the sing pose
+	public var singDuration:Float = 5; //Multiplier of how long a character holds the sing pose
 	public var idleSuffix:String = '';
 	public var danceIdle:Bool = false; //Character use "idleLeft" and "idleRight" instead of "idle"
 	public var skipDance:Bool = false;
@@ -135,7 +135,7 @@ class Character extends FlxSprite
 		}
 	}
 
-	/ USED FOR THE EDITOR... DW ABOUT IT!
+	// USED FOR THE EDITOR... DW ABOUT IT!
 	public function createNow()
 	{
 		buildGhosts();
@@ -342,7 +342,7 @@ class Character extends FlxSprite
 		if (getAnimationName().startsWith('sing')) holdTimer += elapsed;
 		else if(isPlayer) holdTimer = 0;
 
-		if (!isPlayer && holdTimer >= Conductor.stepCrochet * (0.0011 #if FLX_PITCH / (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1) #end) * 4)
+		if (!isPlayer && holdTimer >= Conductor.stepCrochet * (0.0011 #if FLX_PITCH / (FlxG.sound.music != null ? FlxG.sound.music.pitch : 1) #end) * 5)
 		{
 			dance();
 			holdTimer = 0;

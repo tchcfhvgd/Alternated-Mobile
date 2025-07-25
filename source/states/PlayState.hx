@@ -171,6 +171,7 @@ class PlayState extends MusicBeatState
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
+	public var camBopInterval:Float = 4;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2163,7 +2164,7 @@ class PlayState extends MusicBeatState
 					if(flValue1 == null) flValue1 = 1;
 					if(flValue2 == null) flValue2 = 1;
 
-					camZoomingDecay = flValue1;
+					camBopInterval = flValue1;
 				    camZoomingMult = flValue2;
 				}
 
@@ -3365,7 +3366,7 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
 
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % camBopInterval == 0)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;

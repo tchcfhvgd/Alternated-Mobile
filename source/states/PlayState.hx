@@ -500,8 +500,8 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("despair.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 24);
+		timeTxt.setFormat(Paths.font("despair.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
 		timeTxt.borderSize = 2;
@@ -514,8 +514,8 @@ class PlayState extends MusicBeatState
 		timeBar.screenCenter(X);
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
-		timeBar.leftBar.color = 0xFF2e412e;
-		timeBar.rightBar.color = 0xFF44d844;
+		timeBar.leftBar.color = 0xFF44d844;
+		timeBar.rightBar.color = 0xFF2e412e;
 		uiGroup.add(timeBar);
 		uiGroup.add(timeTxt);
 
@@ -2148,6 +2148,24 @@ class PlayState extends MusicBeatState
 					FlxG.camera.zoom += flValue1;
 					camHUD.zoom += flValue2;
 				}
+				
+			case 'Add Camera Zoom':
+				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
+					if(flValue1 == null) flValue1 = 0.015;
+					if(flValue2 == null) flValue2 = 0.03;
+
+					FlxG.camera.zoom += flValue1;
+					camHUD.zoom += flValue2;
+				}
+				
+			case 'Bumpin Beat':
+				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
+					if(flValue1 == null) flValue1 = 1;
+					if(flValue2 == null) flValue2 = 1;
+
+					camZoomingDecay = flValue1;
+				    camZoomingMult = flValue2;
+				}
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
@@ -3305,11 +3323,14 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
+		if(camZoomingMult != 0)
+		{
 		iconP1.scale.set(1.2, 1.2);
 		iconP2.scale.set(1.2, 1.2);
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
+		}
 
 		characterBopper(curBeat);
 

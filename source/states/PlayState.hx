@@ -2161,16 +2161,14 @@ class PlayState extends MusicBeatState
 				}
 				
 			case 'Tween Cam Zoom':
-					var valuesArray:Array<String> = [value1];
 					var stageData:StageFile = StageData.getStageFile(curStage);
-				    if(flValue1 == null)
+				    if(flValue1 == null || value1 == 'stage')
 				    flValue1 = stageData.defaultZoom;
 				    if(flValue2 == null)
 				    flValue2 = 1;
-				    if(valuesArray[0] == 'stage')
-				    flValue1 = stageData.defaultZoom;
 				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
-							}, ease: FlxEase.quadInOut
+						defaultCamZoom = flValue1;
+						}, ease: FlxEase.quadInOut
 					     });
 
 			case 'Play Animation':
@@ -3329,7 +3327,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if(camBopInterval > 0)
+		if(camBopInterval != 0)
 		{
 		iconP1.scale.set(1.2, 1.2);
 		iconP2.scale.set(1.2, 1.2);
@@ -3337,8 +3335,7 @@ class PlayState extends MusicBeatState
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 		
-       camBopInterval = Math.floor(camBopInterval);
-       camZoomingMult = Math.floor(camZoomingMult);
+       camBopInterval = Math.round(camBopInterval);
 		
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % camBopInterval == 0)
 			{

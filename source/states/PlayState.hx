@@ -172,6 +172,7 @@ class PlayState extends MusicBeatState
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 1;
+	public var camBopTimer:Float = 0;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -1730,7 +1731,7 @@ class PlayState extends MusicBeatState
 		}
 		else FlxG.camera.followLerp = 0;
 		callOnScripts('onUpdate', [elapsed]);
-
+		
 		super.update(elapsed);
 
 		setOnScripts('curDecStep', curDecStep);
@@ -2150,22 +2151,13 @@ class PlayState extends MusicBeatState
 					camHUD.zoom += flValue2;
 				}
 				
-			case 'Add Camera Zoom':
-				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 0.015;
-					if(flValue2 == null) flValue2 = 0.03;
-
-					FlxG.camera.zoom += flValue1;
-					camHUD.zoom += flValue2;
-				}
-				
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 0;
+					if(flValue1 == null) flValue1 = 1;
 					if(flValue2 == null) flValue2 = 1;
 
-					camBopInterval = flValue1;
-				    camZoomingMult = flValue2;
+					camZoomingMult = flValue1;
+				    camBopInterval = flValue2;
 				}
 
 			case 'Play Animation':
@@ -3324,20 +3316,21 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if(camZoomingMult != 0)
+		if(camBopInterval != 0)
 		{
 		iconP1.scale.set(1.2, 1.2);
 		iconP2.scale.set(1.2, 1.2);
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
-		}
+		
 
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % 4 == 2)
 			{
-				FlxG.camera.zoom += 0.015 * camBopInterval;
+				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
 			}
+		}
 		
 		characterBopper(curBeat);
 
@@ -3372,11 +3365,12 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
 
+			/*
 			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{
-				FlxG.camera.zoom += 0.015 * camBopInterval;
+				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
-			}
+			}*/
 
 			if (SONG.notes[curSection].changeBPM)
 			{

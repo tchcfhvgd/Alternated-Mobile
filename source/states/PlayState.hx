@@ -3305,11 +3305,10 @@ class PlayState extends MusicBeatState
 	}
 
 	var lastBeatHit:Int = -1;
-	var lastDecBeatHit:Float = -1.0;
 
 	override function beatHit()
 	{
-		if(lastBeatHit >= curBeat || lastDecBeatHit >= curDecBeat) {
+		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
 		}
@@ -3317,7 +3316,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
-		if(camBopInterval != 0)
+		if(camBopInterval > 0)
 		{
 		iconP1.scale.set(1.2, 1.2);
 		iconP2.scale.set(1.2, 1.2);
@@ -3325,8 +3324,9 @@ class PlayState extends MusicBeatState
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 		
-
-		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curDecBeat % camBopInterval == 0)
+       camBopInterval = Math.floor(camBopInterval);
+		
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms && curBeat % camBopInterval == 0)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
@@ -3337,7 +3337,6 @@ class PlayState extends MusicBeatState
 
 		super.beatHit();
 		lastBeatHit = curBeat;
-		lastDecBeatHit = curDecBeat;
 
 		setOnScripts('curBeat', curBeat);
 		callOnScripts('onBeatHit');
@@ -3367,8 +3366,7 @@ class PlayState extends MusicBeatState
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
 				moveCameraSection();
 
-			/*
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
+			/*if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;

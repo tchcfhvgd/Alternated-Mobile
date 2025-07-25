@@ -2161,12 +2161,13 @@ class PlayState extends MusicBeatState
 				}
 				
 			case 'Tween Cam Zoom':
+					var valuesArray:Array<String> = [value1];
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null)
 				    flValue1 = stageData.defaultZoom;
 				    if(flValue2 == null)
 				    flValue2 = 1;
-				    if(flValue1 == 'stage')
+				    if(valuesArray[0] == 'stage')
 				    flValue1 = stageData.defaultZoom;
 				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 							}, ease: FlxEase.quadInOut

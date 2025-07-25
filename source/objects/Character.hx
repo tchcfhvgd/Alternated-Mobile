@@ -89,7 +89,7 @@ class Character extends FlxSprite
 	/**
 	 *	if enabled, ghosts will show on double notes for the character
 	 */
-	public var ghostsEnabled:Bool = true;
+	public var ghostsEnabled:Bool = false;
 	
 	/**
 	 * Array of all ghosts
@@ -242,7 +242,6 @@ class Character extends FlxSprite
 		singDuration = json.sing_duration;
 		flipX = (json.flip_x != isPlayer);
 		healthColorArray = (json.healthbar_colors != null && json.healthbar_colors.length > 2) ? json.healthbar_colors : [161, 161, 161];
-		healthColour = FlxColor.fromRGB(json.healthbar_colors[0], json.healthbar_colors[1], json.healthbar_colors[2]);
 		vocalsFile = json.vocals_file != null ? json.vocals_file : '';
 		originalFlipX = (json.flip_x == true);
 		editorIsPlayer = json._editor_isPlayer;
@@ -359,18 +358,6 @@ class Character extends FlxSprite
 		}
 		
 		super.update(elapsed);
-	}
-
-	override function draw()
-	{
-		if (ghostsEnabled)
-		{
-			for (ghost in doubleGhosts)
-			{
-				if (ghost.visible) ghost.draw();
-			}
-		}
-		super.draw();
 	}
 	
 	inline public function isAnimationNull():Bool
@@ -567,6 +554,14 @@ class Character extends FlxSprite
 			return;
 		}
 		super.draw();
+		if (ghostsEnabled)
+		{
+			for (ghost in doubleGhosts)
+			{
+				if (ghost.visible) ghost.draw();
+			}
+		}
+		
 		if(missingCharacter && visible)
 		{
 			alpha = lastAlpha;
@@ -613,7 +608,7 @@ class Character extends FlxSprite
 		ghost.flipY = flipY;
 		ghost.alpha = alpha * ghostAlpha;
 		ghost.visible = true;
-		ghost.color = healthColour;
+		ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
 		ghost.animation.play(animName, force, reversed, frame);
 		
 		ghostTweenGrp[ghostID]?.cancel();

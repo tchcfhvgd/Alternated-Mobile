@@ -2163,15 +2163,19 @@ class PlayState extends MusicBeatState
 			case 'Tween Cam Zoom':
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
+				    {
 				    flValue1 = stageData.defaultZoom;
+				    }
 				    if(flValue2 == 0 || flValue2 == null)
-				    flValue2 = 0.1;
+				    {
+				    flValue2 = 0.2;
+				    }
 				    if(qqqebEventTween != null)
 		            qqqebEventTween.cancel();
 				    qqqebEventTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
 						qqqebEventTween = null;
-						}, ease: FlxEase.elasticInOut});
+						}, ease: FlxEase.quadInOut});
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

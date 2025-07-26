@@ -172,7 +172,6 @@ class PlayState extends MusicBeatState
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
-	public var qqqebEventTween:FlxTween;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2166,16 +2165,20 @@ class PlayState extends MusicBeatState
 				    {
 				    flValue1 = stageData.defaultZoom;
 				    }
-				    if(flValue2 == 0 || flValue2 == null)
+				    if(flValue2 == 0)
 				    {
 				    flValue2 = 0.2;
 				    }
-				    if(qqqebEventTween != null)
-		            qqqebEventTween.cancel();
-				    qqqebEventTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
+			if(flValue2 == null)
+		    {
+				    defaultCamZoom = flValue1;
+	        }
+	        else
+	        {
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						qqqebEventTween = null;
-						}, ease: FlxEase.quadInOut});
+						}, ease: FlxEase.elasticInOut});
+			}
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

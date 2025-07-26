@@ -170,9 +170,9 @@ class PlayState extends MusicBeatState
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
-	public var camZoomingDecay:Float = 5;
-	public var camZoomingDecay2:Float = 1;
+	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
+	public var qqqebEventTween:FlxTween;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -1801,7 +1801,7 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay2 * playbackRate));
+			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
 		}
 
 		FlxG.watch.addQuick("secShit", curSection);
@@ -2165,15 +2165,13 @@ class PlayState extends MusicBeatState
 				    if(flValue1 == null || value1 == 'stage')
 				    flValue1 = stageData.defaultZoom;
 				    if(flValue2 == 0 || flValue2 == null)
-				    {
-				    defaultCamZoom = flValue1;
-				    }
-				    else
-				    {
-				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
+				    flValue2 = 0.1;
+				    if(qqqebEventTween != null)
+		            qqqebEventTween.cancel();
+				    qqqebEventTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						}});
-					}
+						qqqebEventTween = null;
+						}, ease: FlxEase.elasticInOut});
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

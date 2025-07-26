@@ -2166,10 +2166,17 @@ class PlayState extends MusicBeatState
 				    flValue1 = stageData.defaultZoom;
 				    if(flValue2 == null)
 				    flValue2 = 1;
+				    if(flValue2 == 0)
+				    {
+				    defaultCamZoom = flValue1;
+				    }
+				    else
+				    {
 				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
 						}, ease: FlxEase.quadInOut
 					     });
+					}
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

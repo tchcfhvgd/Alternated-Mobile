@@ -2195,7 +2195,7 @@ class PlayState extends MusicBeatState
 			camFollow.x = flValue1;
 			camFollow.y = flValue2;
 			}
-			else
+			else if(value1 == "off")
 			{
 		    isCameraOnForcedPos = false;
 		    }

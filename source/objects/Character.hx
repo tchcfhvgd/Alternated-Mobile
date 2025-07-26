@@ -312,7 +312,7 @@ class Character extends FlxSprite
 				heyTimer = 0;
 			}
 		}
-		else if(specialAnim && isAnimationFinished())
+		else if(specialAnim && getAnimationName().startsWith('sing'))
 		{
 			specialAnim = false;
 			dance();

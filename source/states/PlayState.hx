@@ -170,7 +170,8 @@ class PlayState extends MusicBeatState
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
-	public var camZoomingDecay:Float = 0.5;
+	public var camZoomingDecay:Float = 2;
+	public var camZoomingDecay2:Float = 1;
 	public var camBopInterval:Float = 4;
 	private var curSong:String = "";
 
@@ -1800,7 +1801,7 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay * playbackRate));
+			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, Math.exp(-elapsed * 3.125 * camZoomingDecay2 * playbackRate));
 		}
 
 		FlxG.watch.addQuick("secShit", curSection);

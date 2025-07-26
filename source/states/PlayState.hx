@@ -2183,14 +2183,10 @@ class PlayState extends MusicBeatState
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
 			
-			isCameraOnForcedPos = false;
-			
-			if(value1 == null && value2 == null)
-			{
 			isCameraOnForcedPos = true;
 			camFollow.x = stageData.camera_stage[0];
 			camFollow.y = stageData.camera_stage[1];
-			}
+			
 			
 			
 

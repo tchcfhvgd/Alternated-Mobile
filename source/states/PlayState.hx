@@ -2188,7 +2188,7 @@ class PlayState extends MusicBeatState
 			if(value1 == 'on')
 			{
 			isCameraOnForcedPos = true;
-			camFollow.setPosition(stageData.camera_stage[0], camera_stage[1]);
+			camFollow.setPosition(stageData.camera_stage[0], stageData.camera_stage[1]);
 			}
 			else
 			{

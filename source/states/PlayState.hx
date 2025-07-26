@@ -170,7 +170,7 @@ class PlayState extends MusicBeatState
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
-	public var camZoomingDecay:Float = 4;
+	public var camZoomingDecay:Float = 5;
 	public var camZoomingDecay2:Float = 1;
 	public var camBopInterval:Float = 4;
 	private var curSong:String = "";
@@ -2172,8 +2172,7 @@ class PlayState extends MusicBeatState
 				    {
 				    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						}, ease: FlxEase.quadInOut
-					     });
+						}});
 					}
 
 			case 'Play Animation':

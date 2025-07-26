@@ -170,8 +170,8 @@ class PlayState extends MusicBeatState
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
-	public var camZoomingDecay:Float = 2.1;
-	public var camZoomingDecay2:Float = 2.1;
+	public var camZoomingDecay:Float = 3;
+	public var camZoomingDecay2:Float = 1;
 	public var camBopInterval:Float = 4;
 	private var curSong:String = "";
 
@@ -2144,11 +2144,11 @@ class PlayState extends MusicBeatState
 
 			case 'Add Mult Zoom':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 0.015;
-					if(flValue2 == null) flValue2 = 0.03;
+					if(flValue1 == null) flValue1 = 1;
+					if(flValue2 == null) flValue2 = 1;
 
-					FlxG.camera.zoom += flValue1;
-					camHUD.zoom += flValue2;
+					FlxG.camera.zoom += 0.015 * flValue1;
+					camHUD.zoom += 0.03 * flValue2;
 				}
 				
 			case 'Bumpin Beat':

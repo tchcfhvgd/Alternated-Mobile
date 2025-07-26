@@ -2167,7 +2167,7 @@ class PlayState extends MusicBeatState
 				    }
 				    if(flValue2 == 0)
 				    {
-				    flValue2 = 0.01;
+				    flValue2 = 0.05;
 				    }
 			if(flValue2 == null)
 		    {
@@ -2175,7 +2175,7 @@ class PlayState extends MusicBeatState
 	        }
 	        else
 	        {
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {ease: FlxEase.elasticInOut, onComplete: function(twn:FlxTween) {
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
 						}});
 			}
@@ -2183,11 +2183,17 @@ class PlayState extends MusicBeatState
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
 			
-			if(value1 != "off")
+			if(value1 != "off" && value2 == null)
 			{
 			isCameraOnForcedPos = true;
 			camFollow.x = stageData.camera_stage[0];
 			camFollow.y = stageData.camera_stage[1];
+			}
+			else if(flValue1 != null && flValue2 != null)
+			{
+			isCameraOnForcedPos = true;
+			camFollow.x = flValue1;
+			camFollow.y = flValue2;
 			}
 			else
 			{

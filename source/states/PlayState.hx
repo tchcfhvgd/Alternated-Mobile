@@ -2167,7 +2167,7 @@ class PlayState extends MusicBeatState
 				    }
 				    if(flValue2 == 0)
 				    {
-				    flValue2 = 0.2;
+				    flValue2 = 0.1;
 				    }
 			if(flValue2 == null)
 		    {
@@ -2177,8 +2177,25 @@ class PlayState extends MusicBeatState
 	        {
 		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						}, ease: FlxEase.elasticInOut});
+						}, ease: FlxEase.backInOut});
 			}
+			
+			case 'Follow Stage Point':
+			var stageData:StageFile = StageData.getStageFile(curStage);
+			if(value1 == null)
+			value1 = 'on';
+			
+			if(value1 == 'on')
+			{
+			isCameraOnForcedPos = true;
+			camFollow.setPosition(stageData.camera_stage[0], camera_stage[1]);
+			}
+			else
+			{
+			isCameraOnForcedPos = false;
+			}
+			
+			
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

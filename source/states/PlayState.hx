@@ -2167,7 +2167,7 @@ class PlayState extends MusicBeatState
 				    }
 				    if(flValue2 == 0)
 				    {
-				    flValue2 = 0.1;
+				    flValue2 = 0.01;
 				    }
 			if(flValue2 == null)
 		    {
@@ -2175,9 +2175,9 @@ class PlayState extends MusicBeatState
 	        }
 	        else
 	        {
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {ease: FlxEase.elasticInOut, onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						}, ease: FlxEase.sineInOut});
+						}});
 			}
 			
 			case 'Follow Stage Point':

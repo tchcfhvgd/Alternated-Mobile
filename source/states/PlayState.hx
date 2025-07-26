@@ -170,9 +170,8 @@ class PlayState extends MusicBeatState
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
-	public var camZoomingDecay:Float = 1;
+	public var camZoomingDecay:Float = 0.5;
 	public var camBopInterval:Float = 4;
-	public var camBopTimer:Float = 0;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2142,7 +2141,7 @@ class PlayState extends MusicBeatState
 				if(flValue1 == null || flValue1 < 1) flValue1 = 1;
 				gfSpeed = Math.round(flValue1);
 
-			case 'Add Camera Zoom':
+			case 'Add Mult Zoom':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
 					if(flValue1 == null) flValue1 = 0.015;
 					if(flValue2 == null) flValue2 = 0.03;
@@ -2164,9 +2163,7 @@ class PlayState extends MusicBeatState
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
 				    flValue1 = stageData.defaultZoom;
-				    if(flValue2 == null)
-				    flValue2 = 1;
-				    if(flValue2 == 0)
+				    if(flValue2 == 0 || flValue2 == null)
 				    {
 				    defaultCamZoom = flValue1;
 				    }
@@ -2179,6 +2176,28 @@ class PlayState extends MusicBeatState
 					}
 
 			case 'Play Animation':
+				//trace('Anim to play: ' + value1);
+				var char:Character = dad;
+				switch(value2.toLowerCase().trim()) {
+					case 'bf' | 'boyfriend':
+						char = boyfriend;
+					case 'gf' | 'girlfriend':
+						char = gf;
+					default:
+						if(flValue2 == null) flValue2 = 0;
+						switch(Math.round(flValue2)) {
+							case 1: char = boyfriend;
+							case 2: char = gf;
+						}
+				}
+
+				if (char != null)
+				{
+					char.playAnim(value1, true);
+					char.specialAnim = true;
+				}
+				
+			case 'Play Static Animation':
 				//trace('Anim to play: ' + value1);
 				var char:Character = dad;
 				switch(value2.toLowerCase().trim()) {

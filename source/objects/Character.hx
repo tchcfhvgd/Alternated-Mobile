@@ -55,6 +55,7 @@ class Character extends FlxSprite
 	public var holdTimer:Float = 0;
 	public var heyTimer:Float = 0;
 	public var specialAnim:Bool = false;
+	public var specialAnim2:Bool = false;
 	public var animationNotes:Array<Dynamic> = [];
 	public var stunned:Bool = false;
 	public var singDuration:Float = 5; //Multiplier of how long a character holds the sing pose
@@ -312,9 +313,14 @@ class Character extends FlxSprite
 				heyTimer = 0;
 			}
 		}
-		else if(specialAnim && getAnimationName().startsWith('sing'))
+		else if(specialAnim && isAnimationFinished())
 		{
 			specialAnim = false;
+			dance();
+		}
+		else if(specialAnim2 && getAnimationName().startsWith('sing'))
+		{
+			specialAnim2 = false;
 			dance();
 		}
 		else if (getAnimationName().endsWith('miss') && isAnimationFinished())
@@ -416,7 +422,7 @@ class Character extends FlxSprite
 	 */
 	public function dance()
 	{
-		if (!debugMode && !skipDance && !specialAnim)
+		if (!debugMode && !skipDance && (!specialAnim || !specialAnim2))
 		{
 			if(danceIdle)
 			{

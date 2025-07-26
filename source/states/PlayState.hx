@@ -2144,8 +2144,8 @@ class PlayState extends MusicBeatState
 
 			case 'Add Mult Zoom':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 0.015;
-					if(flValue2 == null) flValue2 = 0.03;
+					if(flValue1 == null || flValue1 == 0) flValue1 = 0.015;
+					if(flValue2 == null || flValue2 == 0) flValue2 = 0.03;
 
 					FlxG.camera.zoom += flValue1;
 					camHUD.zoom += flValue2;
@@ -2217,7 +2217,7 @@ class PlayState extends MusicBeatState
 				if (char != null)
 				{
 					char.playAnim(value1, true);
-					char.specialAnim = true;
+					char.specialAnim2 = true;
 				}
 
 			case 'Camera Follow Pos':

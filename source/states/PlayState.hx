@@ -2177,7 +2177,7 @@ class PlayState extends MusicBeatState
 	        {
 		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {onComplete: function(twn:FlxTween) {
 						defaultCamZoom = flValue1;
-						}, ease: FlxEase.backInOut});
+						}, ease: FlxEase.sineInOut});
 			}
 			
 			case 'Follow Stage Point':

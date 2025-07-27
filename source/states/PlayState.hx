@@ -173,6 +173,7 @@ class PlayState extends MusicBeatState
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
 	var qqqebTween:FlxTween;
+	var qqqebTimer:FlxTimer;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2161,8 +2162,15 @@ class PlayState extends MusicBeatState
 				    camBopInterval = flValue2;
 				}
 				
-			/*
 			case 'Tween Cam Zoom':
+					if(qqqebTween != null)
+		            {
+			           qqqebTween.cancel();
+			        }
+			        if(qqqebTimer != null)
+			        {
+			           qqqebTimer.cancel();
+			        }
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
 				    {
@@ -2174,26 +2182,26 @@ class PlayState extends MusicBeatState
 	        }
 	        else
 	        {
-		    if(qqqebTween != null)
-		    {
-			qqqebTween.cancel();
-			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, (Conductor.stepCrochet * flValue2 / 1000), {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, (Conductor.stepCrochet * 0.015 * flValue2) - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
 						qqqebTween = null;
-						defaultCamZoom = flValue1;
 						}});
-			}*/
+			}
+			qqqebTimer = new FlxTimer().start((Conductor.stepCrochet * 0.015 * flValue2) - 0.1, function(tmr:FlxTimer)
+			{
+				defaultCamZoom = flValue1;
+				qqqebTimer = null;
+			}, 1);
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
 			
-			if(value1 == "off")
+			if(value1 != null && value2 == null)
 			{
 			isCameraOnForcedPos = false;
 			return;
 			}
 			
-			if(flValue1 == null && flValue2 == null)
+			if(flValue1 == null && flValue2 == null && curStage != "apprehensive")
 			{
 			isCameraOnForcedPos = true;
 			camFollow.x = stageData.camera_stage[0];
@@ -2247,7 +2255,7 @@ class PlayState extends MusicBeatState
 				if (char != null)
 				{
 					char.playAnim(value1, true);
-					char.heyTimer = 2;
+					char.heyTimer = 2.5;
 					char.specialAnim = true;
 				}
 

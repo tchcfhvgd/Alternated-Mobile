@@ -2147,7 +2147,7 @@ class PlayState extends MusicBeatState
 					if(flValue1 == null) flValue1 = 1;
 					if(flValue2 == null) flValue2 = 1;
 
-					FlxG.camera.zoom += 0.015 * flValue1;
+					camGame.zoom += 0.015 * flValue1;
 					camHUD.zoom += 0.03 * flValue2;
 				}
 				
@@ -2168,10 +2168,18 @@ class PlayState extends MusicBeatState
 				    }
 				    if(flValue2 == 0)
 				    {
-				    flValue2 = 0.1;
+				    flValue2 = 0.05;
+				    }
+				    if(flValue2 == 7)
+				    {
+				    flValue2 = 2;
 				    }
 			if(flValue2 == null)
 		    {
+				 if(qqqebTween != null)
+		         {
+			       qqqebTween.cancel();
+			     }
 				    defaultCamZoom = flValue1;
 	        }
 	        else
@@ -3398,7 +3406,7 @@ class PlayState extends MusicBeatState
 		
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{
-				FlxG.camera.zoom += 0.015 * camZoomingMult;
+			    camGame.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.03 * camZoomingMult;
 			}
 		}

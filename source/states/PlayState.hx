@@ -173,7 +173,6 @@ class PlayState extends MusicBeatState
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
 	var qqqebTween:FlxTween;
-	var qqqebTimer:FlxTimer;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2163,14 +2162,6 @@ class PlayState extends MusicBeatState
 				}
 				
 			case 'Tween Cam Zoom':
-					if(qqqebTween != null)
-		            {
-			           qqqebTween.cancel();
-			        }
-			        if(qqqebTimer != null)
-			        {
-			           qqqebTimer.cancel();
-			        }
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
 				    {
@@ -2182,20 +2173,20 @@ class PlayState extends MusicBeatState
 	        }
 	        else
 	        {
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, (Conductor.stepCrochet * 0.015 * flValue2) - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
-						qqqebTween = null;
-						}});
+		    if(qqqebTween != null)
+		    {
+			        qqqebTween.cancel();
 			}
-			qqqebTimer = new FlxTimer().start((Conductor.stepCrochet * 0.015 * flValue2) - 0.1, function(tmr:FlxTimer)
-			{
-				defaultCamZoom = flValue1;
-				qqqebTimer = null;
-			}, 1);
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
+						qqqebTween = null;
+						defaultCamZoom = flValue1;
+						}, ease: FlxEase.elasticOut});
+			}
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
 			
-			if(value1 != null && value2 == null)
+			if(value1 != null)
 			{
 			isCameraOnForcedPos = false;
 			return;

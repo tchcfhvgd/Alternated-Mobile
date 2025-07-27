@@ -2155,6 +2155,7 @@ class PlayState extends MusicBeatState
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
 					if(flValue1 == null) flValue1 = 1;
 					if(flValue2 == null) flValue2 = 4;
+					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
 					camZoomingMult = flValue1;
 				    camBopInterval = flValue2;
@@ -2166,20 +2167,8 @@ class PlayState extends MusicBeatState
 				    {
 				    flValue1 = stageData.defaultZoom;
 				    }
-				    if(flValue2 == 0)
-				    {
-				    flValue2 = 0.05;
-				    }
-				    if(flValue2 == 7)
-				    {
-				    flValue2 = 2;
-				    }
 			if(flValue2 == null)
 		    {
-				 if(qqqebTween != null)
-		         {
-			       qqqebTween.cancel();
-			     }
 				    defaultCamZoom = flValue1;
 	        }
 	        else
@@ -2188,7 +2177,7 @@ class PlayState extends MusicBeatState
 		    {
 			qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, Conductor.stepCrochet * 0.015 * flValue2, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
 						qqqebTween = null;
 						defaultCamZoom = flValue1;
 						}});

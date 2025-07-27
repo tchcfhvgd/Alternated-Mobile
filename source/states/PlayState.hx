@@ -2180,7 +2180,7 @@ class PlayState extends MusicBeatState
 		    {
 			qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
 						qqqebTween = null;
 						defaultCamZoom = flValue1;
 						}});
@@ -2205,7 +2205,7 @@ class PlayState extends MusicBeatState
 			{
 			isCameraOnForcedPos = true;
 			camFollow.x = flValue1;
-			camFollow.y = flValue2;
+			//camFollow.y = flValue2;
 			}
 
 			case 'Play Animation':

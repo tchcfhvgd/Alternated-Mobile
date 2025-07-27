@@ -2161,6 +2161,7 @@ class PlayState extends MusicBeatState
 				    camBopInterval = flValue2;
 				}
 				
+			/*
 			case 'Tween Cam Zoom':
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
@@ -2181,7 +2182,7 @@ class PlayState extends MusicBeatState
 						qqqebTween = null;
 						defaultCamZoom = flValue1;
 						}});
-			}
+			}*/
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);

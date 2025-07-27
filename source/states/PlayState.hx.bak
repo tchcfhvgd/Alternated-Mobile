@@ -2257,7 +2257,7 @@ class PlayState extends MusicBeatState
 				if (char != null)
 				{
 					char.playAnim(value1, true);
-					char.heyTimer = 2;
+					char.heyTimer = 10;
 					char.specialAnim = true;
 				}
 

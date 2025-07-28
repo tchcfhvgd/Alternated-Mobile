@@ -173,6 +173,7 @@ class PlayState extends MusicBeatState
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
 	var qqqebTween:FlxTween;
+	var qqqebTimer:FlxTimer;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2177,9 +2178,17 @@ class PlayState extends MusicBeatState
 		    {
 			        qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.elasticOut, onComplete: function(twn:FlxTween) {
-						qqqebTween = null;
-						defaultCamZoom = flValue1;
+			if(qqqebTimer != null)
+		    {
+			        qqqebTimer.cancel();
+			}
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
+				    qqqebTimer = new FlxTimer().start(0.1, function(tmr:FlxTimer)
+			{
+				defaultCamZoom = flValue1;
+				qqqebTimer = null;
+			}, 1)
+				qqqebTween = null;
 						}});
 			}
 			

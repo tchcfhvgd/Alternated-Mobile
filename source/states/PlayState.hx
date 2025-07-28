@@ -173,7 +173,6 @@ class PlayState extends MusicBeatState
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
 	var qqqebTween:FlxTween;
-	var qqqebTimer:FlxTimer;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2150,6 +2149,14 @@ class PlayState extends MusicBeatState
 
 					camGame.zoom += 0.015 * flValue1;
 					camHUD.zoom += 0.03 * flValue2;
+					if(flValue2 != 0)
+					{
+					iconP1.scale.set(1.2, 1.2);
+		            iconP2.scale.set(1.2, 1.2);
+
+		            iconP1.updateHitbox();
+		            iconP2.updateHitbox();
+					}
 				}
 				
 			case 'Bumpin Beat':
@@ -2178,16 +2185,8 @@ class PlayState extends MusicBeatState
 		    {
 			        qqqebTween.cancel();
 			}
-			if(qqqebTimer != null)
-		    {
-			        qqqebTimer.cancel();
-			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
-				    qqqebTimer = new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.elasticOut, onComplete: function(twn:FlxTween) {
 				defaultCamZoom = flValue1;
-				qqqebTimer = null;
-			}, 1);
 				qqqebTween = null;
 						}});
 			}

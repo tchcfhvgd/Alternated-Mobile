@@ -276,8 +276,6 @@ class PlayState extends MusicBeatState
 
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
-	
-	public var qqqebdefaultZoom:Float = 0;
 
 	public var luaTouchPad:TouchPad;
 
@@ -364,8 +362,6 @@ class PlayState extends MusicBeatState
 		
 		var stageData:StageFile = StageData.getStageFile(curStage);
 		defaultCamZoom = stageData.defaultZoom;
-		
-		qqqebdefaultZoom = stageData.defaultZoom;
 
 		stageUI = "normal";
 		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)
@@ -2173,7 +2169,7 @@ class PlayState extends MusicBeatState
 				    camBopInterval = flValue2;
 				}
 				
-			/*case 'Tween Cam Zoom':
+			case 'Tween Cam Zoom':
 					var stageData:StageFile = StageData.getStageFile(curStage);
 				    if(flValue1 == null || value1 == 'stage')
 				    {
@@ -2193,10 +2189,11 @@ class PlayState extends MusicBeatState
 		    {
 			        qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase., onComplete: function(twn:FlxTween) {
+		    qqqebTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
+				defaultCamZoom = FlxG.camera.zoom;
 				qqqebTween = null;
 						}});
-			}*/
+			}
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);

@@ -2177,6 +2177,10 @@ class PlayState extends MusicBeatState
 				    }
 			if(flValue2 == null)
 		    {
+				    if(qqqebTween != null)
+		    {
+			        qqqebTween.cancel();
+			}
 				    defaultCamZoom = flValue1;
 	        }
 	        else
@@ -2185,9 +2189,9 @@ class PlayState extends MusicBeatState
 		    {
 			        qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
-				defaultCamZoom = flValue1;
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.quadInOut, onComplete: function(twn:FlxTween) {
 				qqqebTween = null;
+				defaultCamZoom = flValue1;
 						}});
 			}
 			
@@ -2213,13 +2217,13 @@ class PlayState extends MusicBeatState
 			camFollow.y += flValue2;
 			}
 			
-			case 'Set Camera Target':
+			/*case 'Set Camera Target':
 			if(value1 == "Dad")
 			moveCamera(true);
 			else if(value1 == "BF")
 			moveCamera(false);
 			else if(value1 == "GF")
-		    moveCameraToGirlfriend();
+		    moveCameraToGirlfriend();*/
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

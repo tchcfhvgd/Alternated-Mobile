@@ -2187,7 +2187,7 @@ class PlayState extends MusicBeatState
 			{
 				defaultCamZoom = flValue1;
 				qqqebTimer = null;
-			}, 1)
+			}, 1);
 				qqqebTween = null;
 						}});
 			}

@@ -2185,7 +2185,7 @@ class PlayState extends MusicBeatState
 		    {
 			        qqqebTween.cancel();
 			}
-		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.elasticOut, onComplete: function(twn:FlxTween) {
+		    qqqebTween = FlxTween.tween(camGame, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
 				defaultCamZoom = flValue1;
 				qqqebTween = null;
 						}});
@@ -2194,7 +2194,7 @@ class PlayState extends MusicBeatState
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
 			
-			if(value1 != null)
+			if(value1 == "off")
 			{
 			isCameraOnForcedPos = false;
 			return;
@@ -2212,6 +2212,14 @@ class PlayState extends MusicBeatState
 			camFollow.x = flValue1;
 			camFollow.y += flValue2;
 			}
+			
+			case 'Set Camera Target':
+			if(value1 == "Dad")
+			moveCamera(true);
+			else if(value1 == "BF")
+			moveCamera(false);
+			else if(value1 == "GF")
+		    moveCameraToGirlfriend();
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

@@ -105,6 +105,7 @@ class FunkinLua {
 
 		set('isStoryMode', PlayState.isStoryMode);
 		set('difficulty', PlayState.storyDifficulty);
+		set('qqqeb', PlayState.qqqebstageData);
 
 		set('difficultyName', Difficulty.getString(false));
 		set('difficultyPath', Difficulty.getFilePath());

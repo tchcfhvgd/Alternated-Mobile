@@ -277,7 +277,7 @@ class PlayState extends MusicBeatState
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
 	
-	public static var qqqebstageData:StageFile;
+	public var qqqebdefaultZoom:Float = 0;
 
 	public var luaTouchPad:TouchPad;
 
@@ -366,6 +366,8 @@ class PlayState extends MusicBeatState
 		
 		var stageData:StageFile = StageData.getStageFile(curStage);
 		defaultCamZoom = stageData.defaultZoom;
+		
+		qqqebdefaultZoom = stageData.defaultZoom;
 
 		stageUI = "normal";
 		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)

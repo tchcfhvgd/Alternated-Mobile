@@ -277,7 +277,7 @@ class PlayState extends MusicBeatState
 	private static var _lastLoadedModDirectory:String = '';
 	public static var nextReloadAll:Bool = false;
 	
-	public var qqqebstageData:StageFile;
+	public static var qqqebstageData:StageFile;
 
 	public var luaTouchPad:TouchPad;
 

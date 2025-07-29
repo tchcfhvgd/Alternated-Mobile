@@ -10,10 +10,11 @@ class Ghost extends PlayState
 	public function new(char:String)
 	{
 		super();
-		qqqeb = char;
+		qqqeb = this.char;
+		playAnim();
 	}
 	
-	public function playAnim(animToPlay:String, force:Bool)
+	public function playAnim(animToPlay:String, force:Bool = false)
 		{
 			var player:Character = dad;
 			var ghost:FlxSprite = ghostDad;
@@ -46,7 +47,7 @@ class Ghost extends PlayState
 				
 			if (ghostBfTween != null)
 						ghostBfTween.cancel();
-					ghost.color = FlxColor.fromRGB(boyfriend.healthColorArray[0] + 50, boyfriend.healthColorArray[1] + 50, boyfriend.healthColorArray[2] + 50);
+					ghost.color = FlxColor.fromRGB(boyfriend.healthColorArray[0], boyfriend.healthColorArray[1], boyfriend.healthColorArray[2]);
 					ghostBfTween = FlxTween.tween(ghostBf, {alpha: 0}, 0.75, {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)
@@ -57,7 +58,7 @@ class Ghost extends PlayState
 			case 'dad' | 'opponent' | '1' | 'ghostDad':
 		    if (ghostDadTween != null)
 						ghostDadTween.cancel();
-					ghost.color = FlxColor.fromRGB(dad.healthColorArray[0] + 50, dad.healthColorArray[1] + 50, dad.healthColorArray[2] + 50);
+					ghost.color = FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]);
 					ghostDadTween = FlxTween.tween(ghostDad, {alpha: 0}, 0.75, {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)
@@ -68,7 +69,7 @@ class Ghost extends PlayState
 				case 'gf' | 'opponent2' | '2' | 'ghostGf':
 					if (ghostGfTween != null)
 						ghostGfTween.cancel();
-					ghost.color = FlxColor.fromRGB(gf.healthColorArray[0] + 50, gf.healthColorArray[1] + 50, gf.healthColorArray[2] + 50);
+					ghost.color = FlxColor.fromRGB(gf.healthColorArray[0], gf.healthColorArray[1], gf.healthColorArray[2]);
 					ghostGfTween = FlxTween.tween(ghostGf, {alpha: 0}, 0.75, {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)

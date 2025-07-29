@@ -28,6 +28,9 @@ class Ghost extends PlayState
 					ghost = ghostGf;
 					player = gf;
 		}
+		   if(ghost == null)
+		   return;
+		    
 		    ghost.frames = player.frames;
 			ghost.animation.copyFrom(player.animation);
 			ghost.x = player.x;

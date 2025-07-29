@@ -15,7 +15,7 @@ class Ghost extends PlayState
 	
 	public function playAnim(animToPlay:String, force:Bool)
 		{
-			var player:qqqebacter = dad;
+			var player:Character = dad;
 			var ghost:FlxSprite = ghostDad;
 		switch(qqqeb.toLowerCase().trim()){
 				case 'bf' | 'boyfriend' | '0' | 'ghostBf':

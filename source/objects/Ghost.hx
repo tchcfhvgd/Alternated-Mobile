@@ -5,7 +5,7 @@ class Ghost extends PlayState
 	public var ghostDadTween:FlxTween = null;
 	public var ghostGfTween:FlxTween = null;
 	public var ghostBfTween:FlxTween = null;
-	public var qqqeb:String;
+	public var qqqeb:String = '';
 	
 	public function new(char:String)
 	{

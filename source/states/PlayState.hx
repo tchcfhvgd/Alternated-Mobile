@@ -541,7 +541,6 @@ class PlayState extends MusicBeatState
 		{*/
 			timeTxt.size = 20;
 			timeTxt.y += 3;
-			timeBar.barWidth = Std.int(timeBar.bg.width - 5);
 		//}
 
 		generateSong();

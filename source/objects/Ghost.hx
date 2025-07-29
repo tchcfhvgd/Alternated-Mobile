@@ -68,7 +68,7 @@ class Ghost extends PlayState
 				case 'gf' | 'opponent2' | '2' | 'ghostGf':
 					if (ghostGfTween != null)
 						ghostGfTween.cancel();
-					ghost.color = FlxColor.fromRGB(mom.healthColorArray[0] + 50, mom.healthColorArray[1] + 50, mom.healthColorArray[2] + 50);
+					ghost.color = FlxColor.fromRGB(gf.healthColorArray[0] + 50, gf.healthColorArray[1] + 50, gf.healthColorArray[2] + 50);
 					ghostGfTween = FlxTween.tween(ghostGf, {alpha: 0}, 0.75, {
 						ease: FlxEase.linear,
 						onComplete: function(twn:FlxTween)

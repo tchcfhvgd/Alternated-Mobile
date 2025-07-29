@@ -97,7 +97,7 @@ class Character extends FlxSprite
 				skipDance = true;
 				loadMappedAnims();
 				playAnim("shoot1");
-			case 'pico-blazin', 'darnell-blazin':
+			case 'pico-blazin', 'darnell-blazin', 'gf_him':
 				skipDance = true;
 		}
 	}

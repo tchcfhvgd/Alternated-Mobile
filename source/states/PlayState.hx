@@ -152,9 +152,9 @@ class PlayState extends MusicBeatState
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
 
-	public var ghostGf:FlxSprite = null;
-	public var ghostDad:FlxSprite = null;
-	public var ghostBf:FlxSprite = null;
+	public var ghostGf:Ghost = null;
+	public var ghostDad:Ghost = null;
+	public var ghostBf:Ghost = null;
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
@@ -420,9 +420,9 @@ class PlayState extends MusicBeatState
 		add(luaDebugGroup);
 		#end
 
-		ghostGf = new FlxSprite();
-	    ghostDad = new FlxSprite();
-		ghostBf = new FlxSprite();
+		ghostGf = new Ghost(gf);
+	    ghostDad = new Ghost(dad);
+		ghostBf = new Ghost(boyfriend);
 		
 		if (!stageData.hide_girlfriend)
 		{
@@ -458,22 +458,9 @@ class PlayState extends MusicBeatState
 			add(boyfriendGroup);
 		}
 		
-        ghostDad.visible = false;
-		ghostDad.antialiasing = true;
-		ghostDad.scale.copyFrom(dad.scale);
-		ghostDad.updateHitbox();
-		ghostGf.visible = false;
-		ghostGf.antialiasing = true;
-		ghostGf.scale.copyFrom(gf.scale);
-		ghostGf.updateHitbox();
-		ghostBf.visible = false;
-		ghostBf.antialiasing = true;
-		ghostBf.scale.copyFrom(boyfriend.scale);
-		ghostBf.updateHitbox();
-		
 		setOnScripts('ghostGf', ghostGf);
-		setOnScripts('ghostBf', ghostBf);
 		setOnScripts('ghostDad', ghostDad);
+		setOnScripts('ghostBf', ghostBf);
         
         #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
@@ -550,11 +537,11 @@ class PlayState extends MusicBeatState
 
 		noteGroup.add(strumLineNotes);
 
-		if(ClientPrefs.data.timeBarType == 'Song Name')
-		{
+		/*if(ClientPrefs.data.timeBarType == 'Song Name')
+		{*/
 			timeTxt.size = 24;
 			timeTxt.y += 3;
-		}
+		//}
 
 		generateSong();
 
@@ -1822,7 +1809,7 @@ class PlayState extends MusicBeatState
 			if(secondsTotal < 0) secondsTotal = 0;
 
 			if(ClientPrefs.data.timeBarType != 'Song Name')
-				timeTxt.text = FlxStringUtil.formatTime(secondsTotal, false);
+				timeTxt.text = SONG.song + ' - ' + FlxStringUtil.formatTime(secondsTotal, false);
 		}
 
 		if (camZooming)

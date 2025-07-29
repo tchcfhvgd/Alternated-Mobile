@@ -14,14 +14,13 @@ class Ghost extends FlxSprite {
         this.visible = false;
 		this.antialiasing = true;
 		this.updateHitbox();
-		this.blend = HARDLIGHT;
-		this.alpha = 0.8;
     }
 
     public function playAnim(animToPlay:String, force:Bool = false):Void {
         this.visible = true;
-        this.scale.copyFrom(player.scale);
         this.frames = player.frames;
+        this.scale.copyFrom(player.scale);
+        this.blend = HARDLIGHT;
 	    this.animation.copyFrom(player.animation);
 	    this.x = player.x;
 		this.y = player.y;

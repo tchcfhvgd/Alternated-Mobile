@@ -419,10 +419,6 @@ class PlayState extends MusicBeatState
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
-
-		ghostGf = new Ghost(gf);
-	    ghostDad = new Ghost(dad);
-		ghostBf = new Ghost(boyfriend);
 		
 		if (!stageData.hide_girlfriend)
 		{
@@ -440,6 +436,10 @@ class PlayState extends MusicBeatState
 		boyfriend = new Character(0, 0, SONG.player1, true);
 		startCharacterPos(boyfriend);
 		boyfriendGroup.add(boyfriend);
+		
+		ghostGf = new Ghost(gf);
+	    ghostDad = new Ghost(dad);
+		ghostBf = new Ghost(boyfriend);
 		
 		if(stageData.objects != null && stageData.objects.length > 0)
 		{
@@ -540,7 +540,8 @@ class PlayState extends MusicBeatState
 		/*if(ClientPrefs.data.timeBarType == 'Song Name')
 		{*/
 			timeTxt.size = 20;
-			timeTxt.y += 3;
+			timeTxt.y += 6;
+			timeBar.barWidth = Std.int(timeBar.bg.width - 5);
 		//}
 
 		generateSong();

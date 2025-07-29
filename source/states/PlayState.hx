@@ -470,6 +470,10 @@ class PlayState extends MusicBeatState
 		ghostBf.antialiasing = true;
 		ghostBf.scale.copyFrom(boyfriend.scale);
 		ghostBf.updateHitbox();
+		
+		setOnScripts('ghostGf', ghostGf);
+		setOnScripts('ghostBf', ghostBf);
+		setOnScripts('ghostDad', ghostDad);
         
         #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS

@@ -430,18 +430,15 @@ class PlayState extends MusicBeatState
 			gf = new Character(0, 0, SONG.gfVersion);
 			startCharacterPos(gf);
 			gfGroup.scrollFactor.set(0.95, 0.95);
-			add(ghostGf);
 			gfGroup.add(gf);
 		}
 
 		dad = new Character(0, 0, SONG.player2);
 		startCharacterPos(dad, true);
-		add(ghostDad);
 		dadGroup.add(dad);
 
 		boyfriend = new Character(0, 0, SONG.player1, true);
 		startCharacterPos(boyfriend);
-		add(ghostBf);
 		boyfriendGroup.add(boyfriend);
 		
 		if(stageData.objects != null && stageData.objects.length > 0)
@@ -453,8 +450,11 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
+			add(ghostGf);
 			add(gfGroup);
+			add(ghostDad);
 			add(dadGroup);
+			add(ghostBf);
 			add(boyfriendGroup);
 		}
 		
@@ -539,8 +539,9 @@ class PlayState extends MusicBeatState
 
 		/*if(ClientPrefs.data.timeBarType == 'Song Name')
 		{*/
-			timeTxt.size = 24;
+			timeTxt.size = 20;
 			timeTxt.y += 3;
+			timeBar.barWidth = Std.int(timeBar.bg.width - 5);
 		//}
 
 		generateSong();

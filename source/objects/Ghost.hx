@@ -10,8 +10,7 @@ class Ghost extends PlayState
 	public function new(char:String)
 	{
 		super();
-		qqqeb = this.char;
-		playAnim();
+		qqqeb = char;
 	}
 	
 	public function playAnim(animToPlay:String, force:Bool = false)

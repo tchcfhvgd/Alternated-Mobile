@@ -152,6 +152,9 @@ class PlayState extends MusicBeatState
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
 
+	public var ghostGf:FlxSprite = null;
+	public var ghostDad:FlxSprite = null;
+	public var ghostBf:FlxSprite = null;
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
@@ -423,15 +426,18 @@ class PlayState extends MusicBeatState
 			gf = new Character(0, 0, SONG.gfVersion);
 			startCharacterPos(gf);
 			gfGroup.scrollFactor.set(0.95, 0.95);
+			add(ghostGf);
 			gfGroup.add(gf);
 		}
 
 		dad = new Character(0, 0, SONG.player2);
 		startCharacterPos(dad, true);
+		add(ghostDad);
 		dadGroup.add(dad);
 
 		boyfriend = new Character(0, 0, SONG.player1, true);
 		startCharacterPos(boyfriend);
+		add(ghostBf);
 		boyfriendGroup.add(boyfriend);
 		
 		if(stageData.objects != null && stageData.objects.length > 0)
@@ -448,7 +454,20 @@ class PlayState extends MusicBeatState
 			add(boyfriendGroup);
 		}
 		
-		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
+        ghostDad.visible = false;
+		ghostDad.antialiasing = true;
+		ghostDad.scale.copyFrom(dad.scale);
+		ghostDad.updateHitbox();
+		ghostGf.visible = false;
+		ghostGf.antialiasing = true;
+		ghostGf.scale.copyFrom(gf.scale);
+		ghostGf.updateHitbox();
+		ghostBf.visible = false;
+		ghostBf.antialiasing = true;
+		ghostBf.scale.copyFrom(boyfriend.scale);
+		ghostBf.updateHitbox();
+        
+        #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
 			#if linux

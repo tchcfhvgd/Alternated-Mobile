@@ -37,7 +37,7 @@ class Ghost extends PlayState
 			ghost.flipX = player.flipX;
 			ghost.flipY = player.flipY;
 			ghost.blend = HARDLIGHT;
-			ghost.alpha = 0.8;
+			ghost.alpha = 0.6;
 			ghost.visible = true;
 			
 			

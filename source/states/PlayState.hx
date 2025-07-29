@@ -420,6 +420,10 @@ class PlayState extends MusicBeatState
 		add(luaDebugGroup);
 		#end
 
+		ghostGf = new FlxSprite();
+	    ghostDad = new FlxSprite();
+		ghostBf = new FlxSprite();
+		
 		if (!stageData.hide_girlfriend)
 		{
 			if(SONG.gfVersion == null || SONG.gfVersion.length < 1) SONG.gfVersion = 'gf'; //Fix for the Chart Editor

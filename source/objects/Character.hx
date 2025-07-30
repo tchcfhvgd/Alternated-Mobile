@@ -40,7 +40,6 @@ typedef AnimArray = {
 
 class Character extends FlxSprite
 {
-	public var mostRecentRow:Int = 0; // for ghost anims n shit
 	/**
 	 * In case a character is missing, it will use this on its place
 	**/
@@ -83,10 +82,35 @@ class Character extends FlxSprite
 	public var editorIsPlayer:Null<Bool> = null;
 	
 	//Ghost stuff
-	public var allowGhost:Bool = true;
-	public var prevRow:Int = -1;
-	public var ghostSprites:Array<FlxSprite> = [];
-	public var ghostTweens:Array<FlxTween> = [];
+	/**
+	 * how much the ghost anims move when played
+	 */
+	public var ghostDisplacement:Float = 40;
+	
+	/**
+	 *	if enabled, ghosts will show on double notes for the character
+	 */
+	public var ghostsEnabled:Bool = true;
+	
+	/**
+	 * Array of all ghosts
+	 */
+	public var doubleGhosts:Array<FlxSprite> = [];
+	
+	/**
+	 * Array of all ghosts tweens
+	 */
+	public var ghostTweenGrp:Array<FlxTween> = [];
+	
+	/**
+	 * Alpha that the ghosts doubles appear at
+	 */
+	public var ghostAlpha:Float = 0.8;
+	
+	/**
+	 * Last hit row index
+	 */
+	public var mostRecentRow:Int = 0; // for ghost anims n shit
 
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
 	{
@@ -94,16 +118,11 @@ class Character extends FlxSprite
 
 		animation = new PsychAnimationController(this);
 
+		buildGhosts();
+		
 		animOffsets = new Map<String, Array<Dynamic>>();
 		this.isPlayer = isPlayer;
 		changeCharacter(character);
-		
-		for(i in 0...4)
-		{
-			var ghost:FlxSprite = new FlxSprite();
-			ghost.alpha = 0;
-			ghostSprites.push(ghost);
-		}
 		
 		switch(curCharacter)
 		{
@@ -115,7 +134,19 @@ class Character extends FlxSprite
 				skipDance = true;
 		}
 	}
-
+	
+	function buildGhosts()
+	{
+		for (i in 0...4)
+		{
+			var ghost = new FlxSprite();
+			ghost.visible = false;
+			ghost.antialiasing = true;
+			ghost.alpha = ghostAlpha;
+			doubleGhosts.push(ghost);
+		}
+	}
+	
 	public function changeCharacter(character:String)
 	{
 		animationsArray = [];
@@ -314,9 +345,10 @@ class Character extends FlxSprite
 		if(isAnimationFinished() && hasAnimation('$name-loop'))
 			playAnim('$name-loop');
 
-		for(ghost in ghostSprites)
+		if (ghostsEnabled)
 		{
-			if(ghost != null) ghost.update(elapsed);
+			for (ghost in doubleGhosts)
+				ghost.update(elapsed);
 		}
 		
 		super.update(elapsed);
@@ -444,50 +476,63 @@ class Character extends FlxSprite
 		catch(e:Dynamic) {}
 	}
 
-	public function playGhostAnim(GhostNum:Int, AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
+	public function playGhostAnim(ghostID = 0, animName:String, force:Bool = false, reversed:Bool = false, frame:Int = 0)
 	{
-		if(!allowGhost || ghostSprites[GhostNum] == null) return;
-
-		if(AnimName.endsWith('alt') && animation.getByName(AnimName) == null)
-			AnimName = AnimName.split('-')[0];
-
-		if(ghostTweens[GhostNum] != null)
-			ghostTweens[GhostNum].cancel();
-
-		var ghost:FlxSprite = ghostSprites[GhostNum];
+		var ghost:FlxSprite = doubleGhosts[ghostID];
+		ghost.scale.copyFrom(scale);
 		ghost.frames = frames;
 		ghost.animation.copyFrom(animation);
-		ghost.scale.copyFrom(scale);
-		ghost.updateHitbox();
 		ghost.antialiasing = antialiasing;
 		ghost.x = x;
 		ghost.y = y;
 		ghost.flipX = flipX;
 		ghost.flipY = flipY;
-		ghost.angle = angle;
-		ghost.alpha = alpha * 0.8;
-		ghost.visible = visible;
-	    if(color != 0xffffff)
+		ghost.alpha = alpha * ghostAlpha;
+		ghost.visible = true;
+		if(color != 0xffffff)
 	    ghost.color = color;
 	    else
 	    ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
-
-		ghost.animation.play(AnimName, Force, Reversed, Frame);
+		ghost.animation.play(animName, force, reversed, frame);
+		
+		ghostTweenGrp[ghostID]?.cancel();
+		
+		final direction:String = animName.substring(4).split('-')[0];
+		
+		inline function resolveDir(xDir:Bool = false):Float
+		{
+			var output:Float = 0;
+			switch (direction)
+			{
+				case 'UP':
+					if (!xDir) output = -ghostDisplacement;
+				case 'DOWN':
+					if (!xDir) output = ghostDisplacement;
+				case 'RIGHT':
+					if (xDir) output = ghostDisplacement;
+				case 'LEFT':
+					if (xDir) output = -ghostDisplacement;
+			}
+			
+			return output;
+		}
+		
+		final moveX = x + resolveDir(true);
+		final moveY = y + resolveDir(false);
+		
+		ghostTweenGrp[ghostID] = FlxTween.tween(ghost, {alpha: 0, x: moveX, y: moveY}, 0.75,
+			{
+				onComplete: (twn) -> {
+					ghost.visible = false;
+					ghostTweenGrp[ghostID] = null;
+				}
+			});
+			
 		if(hasAnimation(AnimName))
 		{
 			final daOffset = animOffsets.get(AnimName);
-			ghost.offset.set(daOffset[0], daOffset[1]);
+			ghost.offset.set(daOffset[0] * scale.x, daOffset[1] * scale.y);
 		}
-
-		ghostTweens[GhostNum] = FlxTween.tween(ghost, {alpha: 0}, 0.75,
-		{
-			ease: FlxEase.linear,
-			onComplete: function(no:FlxTween)
-			{
-				ghost.alpha = 0;
-				ghostTweens[GhostNum] = null;
-			}
-		});
 	}
 	
 	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
@@ -544,10 +589,12 @@ class Character extends FlxSprite
 			color = FlxColor.BLACK;
 		}
 
-		for(ghost in ghostSprites)
+		if (ghostsEnabled)
 		{
-			if(ghost != null && ghost.visible && ghost.alpha != 0)
-				ghost.draw();
+			for (ghost in doubleGhosts)
+			{
+				if (ghost.visible) ghost.draw();
+			}
 		}
 		
 		if(isAnimateAtlas)
@@ -605,7 +652,15 @@ class Character extends FlxSprite
 	{
 		atlas = FlxDestroyUtil.destroy(atlas);
 		super.destroy();
-		for(ghost in ghostSprites) ghost = FlxDestroyUtil.destroy(ghost);
+		for (i in ghostTweenGrp)
+		{
+			i?.cancel();
+			i = null;
+		}
+		
+		ghostTweenGrp = FlxDestroyUtil.destroyArray(ghostTweenGrp);
+		
+		doubleGhosts = FlxDestroyUtil.destroyArray(doubleGhosts);
 	}
 	#end
 }

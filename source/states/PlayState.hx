@@ -180,7 +180,6 @@ class PlayState extends MusicBeatState
 	public var camZoomingMult:Float = 1;
 	public var camZoomingDecay:Float = 1;
 	public var camBopInterval:Float = 4;
-	var qqqebTween:FlxTween;
 	private var curSong:String = "";
 
 	public var gfSpeed:Int = 1;
@@ -2186,22 +2185,22 @@ class PlayState extends MusicBeatState
 					if(flValue2 == null) flValue2 = 4;
 					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
-					camZoomingMult = flValue1;
+					camZoomingMult = flValue1 + 0.01;
 				    camBopInterval = flValue2;
 				}
 				
 			case 'Tween Cam Zoom':
-					var stageData:StageFile = StageData.getStageFile(curStage);
-				    if(flValue1 == null || value1 == 'stage')
-				    {
-				    flValue1 = stageData.defaultZoom;
-				    }
+			FlxTween.cancelTweensOf(FlxG.camera, ['zoom']);
+			var stageData:StageFile = StageData.getStageFile(curStage);
+		    if(flValue1 == null || value1 == 'stage')
+			{
+				  flValue1 = stageData.defaultZoom;
+			}
 				    
-			if(flValue2 == null) FlxG.camera.zoom = flValue1;
+			if(flValue2 == null) defaultCamZoom = flValue1;
 	        else
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineInOut});
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
 			
-			defaultCamZoom = FlxG.camera.zoom;
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);

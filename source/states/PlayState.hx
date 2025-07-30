@@ -458,6 +458,10 @@ class PlayState extends MusicBeatState
 			add(boyfriendGroup);
 		}
         
+        setOnScripts('gf', gf);
+        setOnScripts('dad', dad);
+        setOnScripts('boyfriend', boyfriend);
+        
         #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))

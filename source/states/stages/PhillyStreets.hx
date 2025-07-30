@@ -44,7 +44,7 @@ class PhillyStreets extends BaseStage
 	var spraycanPile:BGSprite;
 
 	var darkenable:Array<FlxSprite> = [];
-	var abot:ABotSpeaker;
+	//var abot:ABotSpeaker;
 	override function create()
 	{
 		if(!ClientPrefs.data.lowQuality)
@@ -131,9 +131,9 @@ class PhillyStreets extends BaseStage
 			darkenable.push(picoFade);
 		}
 
-		abot = new ABotSpeaker(gfGroup.x, gfGroup.y + 550);
-		updateABotEye(true);
-		add(abot);
+		//abot = new ABotSpeaker(gfGroup.x, gfGroup.y + 550);
+		//updateABotEye(true);
+		//add(abot);
 		
 		if(ClientPrefs.data.shaders)
 			setupRainShader();
@@ -388,7 +388,7 @@ class PhillyStreets extends BaseStage
 		FlxG.camera.fade(FlxColor.BLACK, 2, true, null, true);
 	}
 
-	function updateABotEye(finishInstantly:Bool = false)
+	/*function updateABotEye(finishInstantly:Bool = false)
 	{
 		if(PlayState.SONG.notes[Std.int(FlxMath.bound(curSection, 0, PlayState.SONG.notes.length - 1))].mustHitSection == true)
 			abot.lookRight();
@@ -396,11 +396,11 @@ class PhillyStreets extends BaseStage
 			abot.lookLeft();
 
 		if(finishInstantly) abot.eyes.anim.curFrame = abot.eyes.anim.length - 1;
-	}
+	}*/
 
 	override function startSong()
 	{
-		abot.snd = FlxG.sound.music;
+		//abot.snd = FlxG.sound.music;
 		gf.animation.finishCallback = onNeneAnimationFinished;
 	}
 	
@@ -590,7 +590,7 @@ class PhillyStreets extends BaseStage
 
 	override function sectionHit()
 	{
-		updateABotEye();
+		//updateABotEye();
 	}
 
 	var lightsStop:Bool = false;

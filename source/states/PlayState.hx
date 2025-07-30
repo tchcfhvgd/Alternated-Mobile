@@ -518,7 +518,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 245, 19, 400, "", 24);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 242, 19, 400, "", 24);
 		timeTxt.setFormat(Paths.font("despair.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;

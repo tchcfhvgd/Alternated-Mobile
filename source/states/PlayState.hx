@@ -74,6 +74,8 @@ import crowplexus.hscript.Printer;
 **/
 class PlayState extends MusicBeatState
 {
+	var noteRows:Array<Array<Array<Note>>> = [[], []];
+	
 	public static var STRUM_X = 42;
 	public static var STRUM_X_MIDDLESCROLL = -278;
 
@@ -1430,6 +1432,10 @@ class PlayState extends MusicBeatState
 				}
 
 				var swagNote:Note = new Note(spawnTime, noteColumn, oldNote);
+				swagNote.row = Conductor.secsToRow(daStrumTime);
+				var rowArray = noteRows[gottaHitNote ? 0 : 1];
+				if (rowArray[swagNote.row] == null) rowArray[swagNote.row] = [];
+				rowArray[swagNote.row].push(swagNote);
 				var isAlt: Bool = section.altAnim && !gottaHitNote;
 				swagNote.gfNote = (section.gfSection && gottaHitNote == section.mustHitSection);
 				swagNote.animSuffix = isAlt ? "-alt" : "";
@@ -2190,25 +2196,12 @@ class PlayState extends MusicBeatState
 				    {
 				    flValue1 = stageData.defaultZoom;
 				    }
-			if(flValue2 == null)
-		    {
-				    if(qqqebTween != null)
-		    {
-			        qqqebTween.cancel();
-			}
-				    defaultCamZoom = flValue1;
-	        }
+				    
+			if(flValue2 == null) FlxG.camera.zoom = flValue1;
 	        else
-	        {
-		    if(qqqebTween != null)
-		    {
-			        qqqebTween.cancel();
-			}
-		    qqqebTween = FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {
-				defaultCamZoom = FlxG.camera.zoom;
-				qqqebTween = null;
-						}});
-			}
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineInOut});
+			
+			defaultCamZoom = FlxG.camera.zoom;
 			
 			case 'Follow Stage Point':
 			var stageData:StageFile = StageData.getStageFile(curStage);
@@ -3199,7 +3192,38 @@ class PlayState extends MusicBeatState
 					if(char.getAnimationName() == holdAnim || char.getAnimationName() == holdAnim + '-loop') canPlay = false;
 				}
 
-				if(canPlay) char.playAnim(animToPlay, true);
+				//qqqeb
+				if (!note.isSustainNote
+					&& noteRows[note.mustPress ? 0 : 1][note.row] != null
+					&& noteRows[note.mustPress ? 0 : 1][note.row].length > 1
+					&& note.noteType != "Ghost Note")
+				{
+					// potentially have jump anims?
+					var chord = noteRows[note.mustPress ? 0 : 1][note.row];
+					var animNote = chord[0];
+					var realAnim = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
+					if (char.mostRecentRow != note.row) char.playAnim(realAnim, true);
+					
+					if (note.nextNote != null && note.prevNote != null)
+					{
+						if (note != animNote
+							&& !note.nextNote.isSustainNote)
+						{
+							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
+						}
+						else if (note.nextNote.isSustainNote)
+						{
+							char.playAnim(realAnim, true);
+							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
+						}
+					}
+					char.mostRecentRow = note.row;
+				}
+				else
+				{
+					if (note.noteType != "Ghost Note" && canPlay) char.playAnim(animToPlay, true);
+					else if(canPlay) char.playGhostAnim(note.noteData, animToPlay, true);
+				}
 				char.holdTimer = 0;
 			}
 		}
@@ -3258,7 +3282,38 @@ class PlayState extends MusicBeatState
 						if(char.getAnimationName() == holdAnim || char.getAnimationName() == holdAnim + '-loop') canPlay = false;
 					}
 	
-					if(canPlay) char.playAnim(animToPlay, true);
+					//qqqeb
+					if (!note.isSustainNote
+					&& noteRows[note.mustPress ? 0 : 1][note.row] != null
+					&& noteRows[note.mustPress ? 0 : 1][note.row].length > 1
+					&& note.noteType != "Ghost Note")
+				{
+					// potentially have jump anims?
+					var chord = noteRows[note.mustPress ? 0 : 1][note.row];
+					var animNote = chord[0];
+					var realAnim = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
+					if (char.mostRecentRow != note.row) char.playAnim(realAnim, true);
+					
+					if (note.nextNote != null && note.prevNote != null)
+					{
+						if (note != animNote
+							&& !note.nextNote.isSustainNote)
+						{
+							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
+						}
+						else if (note.nextNote.isSustainNote)
+						{
+							char.playAnim(realAnim, true);
+							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
+						}
+					}
+					char.mostRecentRow = note.row;
+				}
+				else
+				{
+					if (note.noteType != "Ghost Note" && canPlay) char.playAnim(animToPlay, true);
+					else if(canPlay) char.playGhostAnim(note.noteData, animToPlay, true);
+				}
 					char.holdTimer = 0;
 
 					if(note.noteType == 'Hey!')

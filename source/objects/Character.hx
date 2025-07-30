@@ -466,6 +466,9 @@ class Character extends FlxSprite
 		ghost.angle = angle;
 		ghost.alpha = alpha * 0.8;
 		ghost.visible = visible;
+	    if(color != 0xffffff)
+	    ghost.color = color;
+	    else
 	    ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
 
 		ghost.animation.play(AnimName, Force, Reversed, Frame);

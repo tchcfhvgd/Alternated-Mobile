@@ -3202,16 +3202,16 @@ class PlayState extends MusicBeatState
 					var chord = noteRows[note.mustPress ? 0 : 1][note.row];
 					var animNote = chord[0];
 					var realAnim = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
-					if (char.mostRecentRow != note.row) char.playAnim(realAnim, true);
+					if (char.mostRecentRow != note.row && canPlay) char.playAnim(realAnim, true);
 					
 					if (note.nextNote != null && note.prevNote != null)
 					{
 						if (note != animNote
-							&& !note.nextNote.isSustainNote)
+							&& !note.nextNote.isSustainNote && canPlay)
 						{
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
 						}
-						else if (note.nextNote.isSustainNote)
+						else if (note.nextNote.isSustainNote && canPlay)
 						{
 							char.playAnim(realAnim, true);
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
@@ -3292,16 +3292,16 @@ class PlayState extends MusicBeatState
 					var chord = noteRows[note.mustPress ? 0 : 1][note.row];
 					var animNote = chord[0];
 					var realAnim = singAnimations[Std.int(Math.abs(Math.min(singAnimations.length-1, note.noteData)))] + note.animSuffix;
-					if (char.mostRecentRow != note.row) char.playAnim(realAnim, true);
+					if (char.mostRecentRow != note.row && canPlay) char.playAnim(realAnim, true);
 					
 					if (note.nextNote != null && note.prevNote != null)
 					{
 						if (note != animNote
-							&& !note.nextNote.isSustainNote)
+							&& !note.nextNote.isSustainNote && canPlay)
 						{
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
 						}
-						else if (note.nextNote.isSustainNote)
+						else if (note.nextNote.isSustainNote && canPlay)
 						{
 							char.playAnim(realAnim, true);
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);

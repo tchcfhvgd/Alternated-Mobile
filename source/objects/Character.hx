@@ -528,9 +528,9 @@ class Character extends FlxSprite
 				}
 			});
 			
-		if(hasAnimation(AnimName))
+		if(hasAnimation(animName))
 		{
-			final daOffset = animOffsets.get(AnimName);
+			final daOffset = animOffsets.get(animName);
 			ghost.offset.set(daOffset[0] * scale.x, daOffset[1] * scale.y);
 		}
 	}

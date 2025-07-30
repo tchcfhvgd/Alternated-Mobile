@@ -80,6 +80,12 @@ class Character extends FlxSprite
 	public var noAntialiasing:Bool = false;
 	public var originalFlipX:Bool = false;
 	public var editorIsPlayer:Null<Bool> = null;
+	
+	//Ghost stuff
+	public var allowGhost:Bool = true;
+	public var prevRow:Int = -1;
+	public var ghostSprites:Array<FlxSprite> = [];
+	public var ghostTweens:Array<FlxTween> = [];
 
 	public function new(x:Float, y:Float, ?character:String = 'bf', ?isPlayer:Bool = false)
 	{
@@ -90,6 +96,13 @@ class Character extends FlxSprite
 		animOffsets = new Map<String, Array<Dynamic>>();
 		this.isPlayer = isPlayer;
 		changeCharacter(character);
+		
+		for(i in 0...4)
+		{
+			var ghost:FlxSprite = new FlxSprite();
+			ghost.alpha = 0;
+			ghostSprites.push(ghost);
+		}
 		
 		switch(curCharacter)
 		{
@@ -300,6 +313,11 @@ class Character extends FlxSprite
 		if(isAnimationFinished() && hasAnimation('$name-loop'))
 			playAnim('$name-loop');
 
+		for(ghost in ghostSprites)
+		{
+			if(ghost != null) ghost.update(elapsed);
+		}
+		
 		super.update(elapsed);
 	}
 
@@ -425,6 +443,49 @@ class Character extends FlxSprite
 		catch(e:Dynamic) {}
 	}
 
+	public function playGhostAnim(GhostNum:Int, AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
+	{
+		if(!allowGhost || ghostSprites[GhostNum] == null) return;
+
+		if(AnimName.endsWith('alt') && animation.getByName(AnimName) == null)
+			AnimName = AnimName.split('-')[0];
+
+		if(ghostTweens[GhostNum] != null)
+			ghostTweens[GhostNum].cancel();
+
+		var ghost:FlxSprite = ghostSprites[GhostNum];
+		ghost.frames = frames;
+		ghost.animation.copyFrom(animation);
+		ghost.scale.copyFrom(scale);
+		ghost.updateHitbox();
+		ghost.antialiasing = antialiasing;
+		ghost.x = x;
+		ghost.y = y;
+		ghost.flipX = flipX;
+		ghost.flipY = flipY;
+		ghost.angle = angle;
+		ghost.alpha = alpha * 0.8;
+		ghost.visible = visible;
+	    ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
+
+		ghost.animation.play(AnimName, Force, Reversed, Frame);
+		if(hasAnimation(AnimName))
+		{
+			final daOffset = animOffsets.get(AnimName);
+			ghost.offset.set(daOffset[0], daOffset[1]);
+		}
+
+		ghostTweens[GhostNum] = FlxTween.tween(ghost, {alpha: 0}, 0.75,
+		{
+			ease: FlxEase.linear,
+			onComplete: function(no:FlxTween)
+			{
+				ghost.alpha = 0;
+				ghostTweens[GhostNum] = null;
+			}
+		});
+	}
+	
 	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
 	{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
@@ -479,6 +540,12 @@ class Character extends FlxSprite
 			color = FlxColor.BLACK;
 		}
 
+		for(ghost in ghostSprites)
+		{
+			if(ghost != null && ghost.visible && ghost.alpha != 0)
+				ghost.draw();
+		}
+		
 		if(isAnimateAtlas)
 		{
 			if(atlas.anim.curInstance != null)
@@ -534,6 +601,7 @@ class Character extends FlxSprite
 	{
 		atlas = FlxDestroyUtil.destroy(atlas);
 		super.destroy();
+		for(ghost in ghostSprites) ghost = FlxDestroyUtil.destroy(ghost);
 	}
 	#end
 }

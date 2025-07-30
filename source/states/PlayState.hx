@@ -152,9 +152,12 @@ class PlayState extends MusicBeatState
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
 
-	public var ghostGf:Ghost = null;
-	public var ghostDad:Ghost = null;
-	public var ghostBf:Ghost = null;
+	public var ghostGfTween:FlxTween = null;
+	public var ghostDadTween:FlxTween = null;
+	public var ghostBfTween:FlxTween = null;
+	public var ghostGf:FlxSprite = null;
+	public var ghostDad:FlxSprite = null;
+	public var ghostBf:FlxSprite = null;
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
@@ -437,9 +440,9 @@ class PlayState extends MusicBeatState
 		startCharacterPos(boyfriend);
 		boyfriendGroup.add(boyfriend);
 		
-		ghostGf = new Ghost(gf);
-	    ghostDad = new Ghost(dad);
-		ghostBf = new Ghost(boyfriend);
+		ghostGf = new FlxSprite();
+	    ghostDad = new FlxSprite();
+		ghostBf = new FlxSprite();
 		
 		if(stageData.objects != null && stageData.objects.length > 0)
 		{
@@ -450,17 +453,10 @@ class PlayState extends MusicBeatState
 		}
 		else
 		{
-			add(ghostGf);
 			add(gfGroup);
-			add(ghostDad);
 			add(dadGroup);
-			add(ghostBf);
 			add(boyfriendGroup);
 		}
-		
-		setOnScripts('ghostGf', ghostGf);
-		setOnScripts('ghostDad', ghostDad);
-		setOnScripts('ghostBf', ghostBf);
         
         #if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		// "SCRIPTS FOLDER" SCRIPTS
@@ -516,7 +512,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 24);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 245, 19, 400, "", 24);
 		timeTxt.setFormat(Paths.font("despair.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;

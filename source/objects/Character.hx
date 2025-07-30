@@ -40,6 +40,7 @@ typedef AnimArray = {
 
 class Character extends FlxSprite
 {
+	public var mostRecentRow:Int = 0; // for ghost anims n shit
 	/**
 	 * In case a character is missing, it will use this on its place
 	**/

@@ -1432,7 +1432,7 @@ class PlayState extends MusicBeatState
 				}
 
 				var swagNote:Note = new Note(spawnTime, noteColumn, oldNote);
-				swagNote.row = Conductor.secsToRow(daStrumTime);
+				swagNote.row = Conductor.secsToRow(spawnTime);
 				var rowArray = noteRows[gottaHitNote ? 0 : 1];
 				if (rowArray[swagNote.row] == null) rowArray[swagNote.row] = [];
 				rowArray[swagNote.row].push(swagNote);

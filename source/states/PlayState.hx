@@ -175,6 +175,7 @@ class PlayState extends MusicBeatState
 	public var opponentStrums:FlxTypedGroup<StrumNote> = new FlxTypedGroup<StrumNote>();
 	public var playerStrums:FlxTypedGroup<StrumNote> = new FlxTypedGroup<StrumNote>();
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash> = new FlxTypedGroup<NoteSplash>();
+	public var grpHoldSplashes:FlxTypedGroup<SustainSplash> = new FlxTypedGroup<SustainSplash>();
 
 	public var camZooming:Bool = false;
 	public var camZoomingMult:Float = 1;
@@ -517,7 +518,7 @@ class PlayState extends MusicBeatState
 
 		Conductor.songPosition = -Conductor.crochet * 5 + Conductor.offset;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 242, 19, 400, "", 24);
+		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 236, 19, 400, "", 24);
 		timeTxt.setFormat(Paths.font("despair.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
 		timeTxt.alpha = 0;
@@ -548,6 +549,7 @@ class PlayState extends MusicBeatState
 		generateSong();
 
 		noteGroup.add(grpNoteSplashes);
+		noteGroup.add(grpHoldSplashes);
 
 		camFollow = new FlxObject();
 		camFollow.setPosition(camPos.x, camPos.y);
@@ -2164,13 +2166,14 @@ class PlayState extends MusicBeatState
 
 			case 'Add Mult Zoom':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 1;
-					if(flValue2 == null) flValue2 = 1;
+					if(flValue1 == null) flValue1 = 2;
+					if(flValue2 == null) flValue2 = 2;
 
+					if(flValue1 != 0)
 					camGame.zoom += 0.015 * flValue1;
-					camHUD.zoom += 0.03 * flValue2;
 					if(flValue2 != 0)
 					{
+					camHUD.zoom += 0.03 * flValue2;
 					iconP1.scale.set(1.2, 1.2);
 		            iconP2.scale.set(1.2, 1.2);
 
@@ -2181,11 +2184,11 @@ class PlayState extends MusicBeatState
 				
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
-					if(flValue1 == null) flValue1 = 1;
+					if(flValue1 == null) flValue1 = 2;
 					if(flValue2 == null) flValue2 = 2;
 					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
-					camZoomingMult = flValue1;
+					camZoomingMult = flValue1 + 0.01;
 				    camBopInterval = flValue2;
 				}
 				
@@ -2199,7 +2202,7 @@ class PlayState extends MusicBeatState
 				    
 			if(flValue2 == null) defaultCamZoom = flValue1;
 	        else
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.elasticIn, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
 			
 			
 			case 'Follow Stage Point':
@@ -3368,6 +3371,7 @@ class PlayState extends MusicBeatState
 		stagesFunc(function(stage:BaseStage) stage.goodNoteHit(note));
 		var result:Dynamic = callOnLuas('goodNoteHit', [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('goodNoteHit', [note]);
+		spawnHoldSplashOnNote(note);
 		if(!note.isSustainNote) invalidateNote(note);
 	}
 
@@ -3377,6 +3381,24 @@ class PlayState extends MusicBeatState
 		note.destroy();
 	}
 
+	public function spawnHoldSplashOnNote(note:Note) {
+		if (ClientPrefs.data.holdSplashAlpha <= 0)
+			return;
+
+		if (note != null) {
+			var strum:StrumNote = (note.mustPress ? playerStrums : opponentStrums).members[note.noteData];
+			if(strum != null && note.tail.length > 1)
+				spawnHoldSplash(note);
+		}
+	}
+
+	public function spawnHoldSplash(note:Note) {
+		var end:Note = note.isSustainNote ? note.parent.tail[note.parent.tail.length - 1] : note.tail[note.tail.length - 1];
+		var splash:SustainSplash = grpHoldSplashes.recycle(SustainSplash);
+		splash.setupSusSplash((note.mustPress ? playerStrums : opponentStrums).members[note.noteData], note, playbackRate);
+		grpHoldSplashes.add(end.noteHoldSplash = splash);
+	}
+	
 	public function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {
 			var strum:StrumNote = playerStrums.members[note.noteData];

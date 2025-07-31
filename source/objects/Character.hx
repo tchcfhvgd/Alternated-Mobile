@@ -105,7 +105,7 @@ class Character extends FlxSprite
 	/**
 	 * Alpha that the ghosts doubles appear at
 	 */
-	public var ghostAlpha:Float = 0.8;
+	public var ghostAlpha:Float = 0.6;
 	
 	/**
 	 * Last hit row index
@@ -531,7 +531,7 @@ class Character extends FlxSprite
 		if(hasAnimation(animName))
 		{
 			final daOffset = animOffsets.get(animName);
-			ghost.offset.set(daOffset[0] * scale.x, daOffset[1] * scale.y);
+			ghost.offset.set(daOffset[0], daOffset[1]);
 		}
 	}
 	

@@ -2182,7 +2182,7 @@ class PlayState extends MusicBeatState
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
 					if(flValue1 == null) flValue1 = 1;
-					if(flValue2 == null) flValue2 = 4;
+					if(flValue2 == null) flValue2 = 1;
 					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
 					camZoomingMult = flValue1 + 0.01;

@@ -2182,10 +2182,10 @@ class PlayState extends MusicBeatState
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
 					if(flValue1 == null) flValue1 = 1;
-					if(flValue2 == null) flValue2 = 1;
+					if(flValue2 == null) flValue2 = 2;
 					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
-					camZoomingMult = flValue1 + 0.01;
+					camZoomingMult = flValue1;
 				    camBopInterval = flValue2;
 				}
 				
@@ -2199,7 +2199,7 @@ class PlayState extends MusicBeatState
 				    
 			if(flValue2 == null) defaultCamZoom = flValue1;
 	        else
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.elasticIn, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
 			
 			
 			case 'Follow Stage Point':
@@ -2224,13 +2224,13 @@ class PlayState extends MusicBeatState
 			camFollow.y += flValue2;
 			}
 			
-			/*case 'Set Camera Target':
+			case 'Set Camera Target':
 			if(value1 == "Dad")
 			moveCamera(true);
-			else if(value1 == "BF")
+			if(value1 == "BF")
 			moveCamera(false);
-			else if(value1 == "GF")
-		    moveCameraToGirlfriend();*/
+			if(value1 == "GF")
+		    moveCameraToGirlfriend();
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

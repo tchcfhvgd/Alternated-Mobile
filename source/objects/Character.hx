@@ -105,7 +105,7 @@ class Character extends FlxSprite
 	/**
 	 * Alpha that the ghosts doubles appear at
 	 */
-	public var ghostAlpha:Float = 0.6;
+	public var ghostAlpha:Float = 0.8;
 	
 	/**
 	 * Last hit row index
@@ -118,11 +118,11 @@ class Character extends FlxSprite
 
 		animation = new PsychAnimationController(this);
 
-		buildGhosts();
-		
 		animOffsets = new Map<String, Array<Dynamic>>();
 		this.isPlayer = isPlayer;
 		changeCharacter(character);
+		
+		buildGhosts();
 		
 		switch(curCharacter)
 		{
@@ -489,10 +489,8 @@ class Character extends FlxSprite
 		ghost.flipY = flipY;
 		ghost.alpha = alpha * ghostAlpha;
 		ghost.visible = true;
-		if(color != 0xffffff)
-	    ghost.color = color;
-	    else
-	    ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
+		if(color != 0xffffff) ghost.color = color;
+	    else ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
 		ghost.animation.play(animName, force, reversed, frame);
 		
 		ghostTweenGrp[ghostID]?.cancel();

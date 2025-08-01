@@ -684,6 +684,11 @@ class PlayState extends MusicBeatState
 		var splash:NoteSplash = new NoteSplash();
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
+		
+		SustainSplash.startCrochet = Conductor.stepCrochet;
+		SustainSplash.frameRate = Math.floor(24 / 100 * SONG.bpm);
+		var holdSplash:SustainSplash = new SustainSplash();
+		holdSplash.alpha = 0.0001;
 
 		#if !android
 		addTouchPad('NONE', 'P');
@@ -3065,6 +3070,11 @@ class PlayState extends MusicBeatState
 				invalidateNote(note);
 		});
 
+		final end:Note = daNote.isSustainNote ? daNote.parent.tail[daNote.parent.tail.length - 1] : daNote.tail[daNote.tail.length - 1];
+		if (end != null && end.extraData['holdSplash'] != null) {
+			end.extraData['holdSplash'].visible = false;
+		}
+		
 		noteMissCommon(daNote.noteData, daNote);
 		stagesFunc(function(stage:BaseStage) stage.noteMiss(daNote));
 		var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);

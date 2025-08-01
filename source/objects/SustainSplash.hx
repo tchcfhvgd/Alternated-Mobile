@@ -16,9 +16,10 @@ class SustainSplash extends FlxSprite
 		x = -50000;
 
 		frames = Paths.getSparrowAtlas('holdCovers/holdCover');
-		animation.addByPrefix('hold', 'idle', 24, true);
-		animation.addByPrefix('end', 'end', 24, true);
-		if(!animation.getNameList().contains("hold")) trace("Hold splash is missing 'hold' anim!");
+
+		animation.addByPrefix('idle', 'idle0', 24, true);
+		animation.addByPrefix('end', 'end0', 24, false);
+		if(!animation.getNameList().contains("idle")) trace("Hold splash is missing 'idle' anim!");
 	}
 
 	override function update(elapsed)
@@ -31,7 +32,7 @@ class SustainSplash extends FlxSprite
 			visible = strumNote.visible;
 			alpha = ClientPrefs.data.holdSplashAlpha - (1 - strumNote.alpha);
 
-			if (animation.curAnim?.name == "hold" && strumNote.animation.curAnim?.name == "static")
+			if (animation.curAnim?.name == "idle" && strumNote.animation.curAnim?.name == "static")
 			{
 				x = -50000;
 				kill();
@@ -47,7 +48,7 @@ class SustainSplash extends FlxSprite
 
 		var tailEnd:Note = !daNote.isSustainNote ? daNote.tail[daNote.tail.length - 1] : daNote.parent.tail[daNote.parent.tail.length - 1];
 
-		animation.play('hold', true);
+		animation.play('idle', true, false, 0);
 		if (animation.curAnim != null)
 		{
 			animation.curAnim.frameRate = frameRate;
@@ -77,7 +78,7 @@ class SustainSplash extends FlxSprite
 				if (!(daNote.isSustainNote ? daNote.parent.noteSplashData.disabled : daNote.noteSplashData.disabled) && animation != null)
 				{
 					alpha = ClientPrefs.data.holdSplashAlpha - (1 - strumNote.alpha);
-					animation.play('end', true);
+					animation.play('end', true, false, 0);
 					if (animation.curAnim != null)
 					{
 						animation.curAnim.looped = false;

@@ -2202,7 +2202,7 @@ class PlayState extends MusicBeatState
 				    
 			if(flValue2 == null) defaultCamZoom = flValue1;
 	        else
-		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineIn, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
+		    FlxTween.tween(FlxG.camera, {zoom: flValue1}, flValue2 - 0.1, {ease: FlxEase.sineOut, onComplete: function(twn:FlxTween) {defaultCamZoom = flValue1;}});
 			
 			
 			case 'Follow Stage Point':
@@ -3238,6 +3238,7 @@ class PlayState extends MusicBeatState
 		var result:Dynamic = callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('opponentNoteHit', [note]);
 
+		spawnHoldSplashOnNote(note);
 		if (!note.isSustainNote) invalidateNote(note);
 	}
 

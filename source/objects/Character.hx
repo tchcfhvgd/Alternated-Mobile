@@ -489,8 +489,7 @@ class Character extends FlxSprite
 		ghost.flipY = flipY;
 		ghost.alpha = alpha * ghostAlpha;
 		ghost.visible = true;
-		if(color != 0xffffff) ghost.color = color;
-	    else ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
+		ghost.color = FlxColor.fromRGB(healthColorArray[0], healthColorArray[1], healthColorArray[2]);
 		ghost.animation.play(animName, force, reversed, frame);
 		
 		ghostTweenGrp[ghostID]?.cancel();

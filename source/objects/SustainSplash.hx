@@ -16,9 +16,8 @@ class SustainSplash extends FlxSprite
 		x = -50000;
 
 		frames = Paths.getSparrowAtlas('holdCovers/holdCover');
-        animation.addByPrefix('start', 'start0', 24, false);
-		animation.addByPrefix('hold', 'idle0', 24, true);
-		animation.addByPrefix('end', 'end0', 24, false);
+		animation.addByPrefix('hold', 'idle', 24, true);
+		animation.addByPrefix('end', 'end', 24, false);
 		if(!animation.getNameList().contains("hold")) trace("Hold splash is missing 'hold' anim!");
 	}
 

@@ -17,7 +17,7 @@ class SustainSplash extends FlxSprite
 
 		frames = Paths.getSparrowAtlas('holdCovers/holdCover');
 		animation.addByPrefix('hold', 'idle', 24, true);
-		animation.addByPrefix('end', 'end', 24, false);
+		animation.addByPrefix('end', 'end', 24, true);
 		if(!animation.getNameList().contains("hold")) trace("Hold splash is missing 'hold' anim!");
 	}
 
@@ -47,7 +47,7 @@ class SustainSplash extends FlxSprite
 
 		var tailEnd:Note = !daNote.isSustainNote ? daNote.tail[daNote.tail.length - 1] : daNote.parent.tail[daNote.parent.tail.length - 1];
 
-		animation.play('hold', true, false, 0);
+		animation.play('hold', true);
 		if (animation.curAnim != null)
 		{
 			animation.curAnim.frameRate = frameRate;
@@ -77,7 +77,7 @@ class SustainSplash extends FlxSprite
 				if (!(daNote.isSustainNote ? daNote.parent.noteSplashData.disabled : daNote.noteSplashData.disabled) && animation != null)
 				{
 					alpha = ClientPrefs.data.holdSplashAlpha - (1 - strumNote.alpha);
-					animation.play('end', true, false, 0);
+					animation.play('end', true);
 					if (animation.curAnim != null)
 					{
 						animation.curAnim.looped = false;

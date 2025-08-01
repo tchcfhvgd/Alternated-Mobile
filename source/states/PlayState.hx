@@ -2190,7 +2190,7 @@ class PlayState extends MusicBeatState
 			case 'Bumpin Beat':
 				if(ClientPrefs.data.camZooms && FlxG.camera.zoom < 1.35) {
 					if(flValue1 == null) flValue1 = 2;
-					if(flValue2 == null) flValue2 = 2;
+					if(flValue2 == null) flValue2 = 1;
 					if(flValue2 > 0 && flValue2 < 1) flValue2 = 1;
 
 					camZoomingMult = flValue1 + 0.01;
@@ -2234,11 +2234,23 @@ class PlayState extends MusicBeatState
 			
 			case 'Set Camera Target':
 			if(value1 == "Dad")
-			moveCamera(true);
-			if(value1 == "BF")
-			moveCamera(false);
-			if(value1 == "GF")
-		    moveCameraToGirlfriend();
+			{
+			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
+			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
+			} 
+			else if(value1 == "BF")
+			{
+			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
+			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+			} 
+			else if(value1 == "GF")
+			{
+		    camFollow.setPosition(gf.getMidpoint().x + 150, gf.getMidpoint().y - 100);
+		camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
+		camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
+		    }
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
@@ -3506,6 +3518,7 @@ class PlayState extends MusicBeatState
 		if (generatedMusic)
 			notes.sort(FlxSort.byY, ClientPrefs.data.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 
+		camBopInterval = Math.round(camBopInterval);
 		if(camBopInterval != 0 && curBeat % camBopInterval == 0)
 		{
 		iconP1.scale.set(1.2, 1.2);
@@ -3513,8 +3526,6 @@ class PlayState extends MusicBeatState
 
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
-		
-       camBopInterval = Math.round(camBopInterval);
 		
 		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.data.camZooms)
 			{

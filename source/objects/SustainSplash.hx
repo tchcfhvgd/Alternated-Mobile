@@ -67,7 +67,8 @@ class SustainSplash extends FlxSprite
 
 		strumNote = strum;
 		alpha = ClientPrefs.data.holdSplashAlpha - (1 - strumNote.alpha);
-		offset.set(PlayState.isPixelStage ? 112.5 : 106.25, 100);
+		scale.set(0.8, 0.8);
+		offset.set(PlayState.isPixelStage ? 90 : 85, 80);
 
 		if (timer != null)
 			timer.cancel();

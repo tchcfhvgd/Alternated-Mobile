@@ -2232,7 +2232,7 @@ class PlayState extends MusicBeatState
 			camFollow.y += flValue2;
 			}
 			
-			case 'Set Camera Target':
+			/*case 'Set Camera Target':
 			if(value1 == "Dad")
 			{
 			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
@@ -2247,10 +2247,10 @@ class PlayState extends MusicBeatState
 			} 
 			else if(value1 == "GF")
 			{
-		    camFollow.setPosition(gf.getMidpoint().x + 150, gf.getMidpoint().y - 100);
+		    camFollow.setPosition(gf.getMidpoint().x + 100, gf.getMidpoint().y - 100);
 		camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
 		camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
-		    }
+		    }*/
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);

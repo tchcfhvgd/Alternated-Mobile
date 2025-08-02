@@ -567,7 +567,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "doTweenZoom", function(tag:String, camera:String, value:Dynamic, duration:Float, ?ease:String = 'linear') {
 			switch(camera.toLowerCase()) {
 				case 'camgame' | 'game': camera = 'camGame';
-				case 'camui' | 'ui': camera = 'camUI';
+				case 'camui' | 'ui' | 'camUI': camera = 'camUI';
 				case 'camhud' | 'hud': camera = 'camHUD';
 				case 'camother' | 'other': camera = 'camOther';
 				default:

@@ -2232,25 +2232,20 @@ class PlayState extends MusicBeatState
 			camFollow.y += flValue2;
 			}
 			
-			/*case 'Set Camera Target':
+			case 'Set Camera Target':
 			if(value1 == "Dad")
 			{
-			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
-			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
-			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
+			moveCamera(true);
 			} 
 			else if(value1 == "BF")
 			{
-			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
-			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
-			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+			moveCamera(false);
 			} 
 			else if(value1 == "GF")
 			{
-		    camFollow.setPosition(gf.getMidpoint().x + 100, gf.getMidpoint().y - 100);
-		camFollow.x += gf.cameraPosition[0] + girlfriendCameraOffset[0];
-		camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
-		    }*/
+		    moveCameraToGirlfriend();
+		    camFollow.setPosition(gf.getMidpoint().x + 100, gf.getMidpoint().y + 100);
+		    }
 
 			case 'Play Animation':
 				//trace('Anim to play: ' + value1);
@@ -3231,7 +3226,7 @@ class PlayState extends MusicBeatState
 					if (note.nextNote != null && note.prevNote != null)
 					{
 						if (note != animNote
-							&& !note.nextNote.isSustainNote && canPlay)
+							&& !note.nextNote.isSustainNote)
 						{
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
 						}
@@ -3322,7 +3317,7 @@ class PlayState extends MusicBeatState
 					if (note.nextNote != null && note.prevNote != null)
 					{
 						if (note != animNote
-							&& !note.nextNote.isSustainNote && canPlay)
+							&& !note.nextNote.isSustainNote)
 						{
 							char.playGhostAnim(chord.indexOf(note), animToPlay, true);
 						}

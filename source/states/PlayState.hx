@@ -2235,16 +2235,30 @@ class PlayState extends MusicBeatState
 			case 'Set Camera Target':
 			if(value1 == "Dad")
 			{
-			moveCamera(true);
+			<(true);
+			camFollow.y = 0;
+			camFollow.x = 0;
+			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);
+			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
+			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
 			} 
 			else if(value1 == "BF")
 			{
 			moveCamera(false);
+			camFollow.y = 0;
+			camFollow.x = 0;
+			camFollow.setPosition(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
+			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
 			} 
 			else if(value1 == "GF")
 			{
 		    moveCameraToGirlfriend();
-		    camFollow.setPosition(gf.getMidpoint().x + 100, gf.getMidpoint().y + 100);
+		    camFollow.y = 0;
+			camFollow.x = 0;
+			camFollow.setPosition(gf.getMidpoint().x, gf.getMidpoint().y);
+		camFollow.x -= gf.cameraPosition[0] + girlfriendCameraOffset[0];
+		camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
 		    }
 
 			case 'Play Animation':

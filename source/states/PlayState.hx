@@ -2235,7 +2235,7 @@ class PlayState extends MusicBeatState
 			case 'Set Camera Target':
 			if(value1 == "Dad")
 			{
-			<(true);
+			moveCamera(true);
 			camFollow.y = 0;
 			camFollow.x = 0;
 			camFollow.setPosition(dad.getMidpoint().x + 150, dad.getMidpoint().y - 100);

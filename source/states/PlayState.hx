@@ -2237,11 +2237,13 @@ class PlayState extends MusicBeatState
 			if(value1 == "Dad")
 			{
 			moveCamera(true);
+			if(curStage != "observed")
 			isCameraOnForcedPos = false;
 			} 
 			else if(value1 == "BF")
 			{
 			moveCamera(false);
+			if(curStage != "observed")
 			isCameraOnForcedPos = false;
 			
 			} 
@@ -2251,10 +2253,7 @@ class PlayState extends MusicBeatState
 			camFollow.setPosition(gf.getMidpoint().x - 100, gf.getMidpoint().y);
 		    camFollow.x -= gf.cameraPosition[0] + girlfriendCameraOffset[0];
 		    camFollow.y += gf.cameraPosition[1] + girlfriendCameraOffset[1];
-		    isCameraOnForcedPos = false;
-		    }
-		    else
-		    {
+		    if(curStage != "observed")
 		    isCameraOnForcedPos = false;
 		    }
 
